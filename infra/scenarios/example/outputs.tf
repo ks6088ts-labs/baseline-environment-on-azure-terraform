@@ -1,4 +1,4 @@
 output "id" {
-  value       = azurerm_resource_group.rg.id
+  value       = module.resource_group.id
   description = "Specifies the ID of the resource group"
 }

@@ -21,7 +21,8 @@ resource "random_string" "prefix" {
   numeric = false
 }
 
-resource "azurerm_resource_group" "rg" {
+module "resource_group" {
+  source   = "../../modules/resource_group"
   name     = var.name_prefix == null ? "${random_string.prefix.result}-${var.resource_group_name}" : "${var.name_prefix}-${var.resource_group_name}"
   location = var.location
   tags     = var.tags
