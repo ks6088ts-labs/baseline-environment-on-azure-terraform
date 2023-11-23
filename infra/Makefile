@@ -10,6 +10,8 @@ TENANT_ID ?= $(shell az account show --query tenantId --output tsv)
 # Terraform
 SCENARIO ?= example
 SCENARIO_DIR ?= scenarios/$(SCENARIO)
+SCENARIO_DIR_LIST ?= $(shell find scenarios/* -name ".terraform" -prune -o -type d -print)
+
 TERRAFORM ?= cd $(SCENARIO_DIR) && terraform
 OUT_DIR ?= ./artifacts
 
@@ -29,6 +31,7 @@ info: ## show information
 .PHONY: install-deps-dev
 install-deps-dev: ## install dependencies for development
 	@which terraform || echo "Please install Terraform: https://developer.hashicorp.com/terraform/install"
+	@which tfsec || echo "Please install tfsec: https://aquasecurity.github.io/tfsec/v1.4.2/getting-started/installation/"
 
 .PHONY: clear
 clear:
@@ -42,6 +45,15 @@ init:
 lint:
 	$(TERRAFORM) fmt -check
 	$(TERRAFORM) validate
+
+.PHONY: tfsec
+tfsec:
+	@if [ -x "$(shell command -v tfsec)" ]; then \
+		echo "Running tfsec..."; \
+		tfsec .; \
+	else \
+		echo "tfsec is not installed. Skipping..."; \
+	fi
 
 .PHONY: format
 format: ## format terraform codes
@@ -59,8 +71,8 @@ test: ## test codes
 _ci-test-base: install-deps-dev clear init lint test plan
 
 .PHONY: ci-test
-ci-test: ## ci test
-	@for dir in $(shell find scenarios/* -type d) ; do \
+ci-test: tfsec ## ci test
+	@for dir in $(SCENARIO_DIR_LIST) ; do \
 		echo "Test: $$dir" ; \
 		make _ci-test-base SCENARIO=$$(basename $$dir) || exit 1 ; \
 	done
