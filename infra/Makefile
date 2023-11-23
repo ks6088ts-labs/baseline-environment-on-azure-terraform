@@ -11,6 +11,7 @@ TENANT_ID ?= $(shell az account show --query tenantId --output tsv)
 SCENARIO ?= example
 SCENARIO_DIR ?= scenarios/$(SCENARIO)
 TERRAFORM ?= cd $(SCENARIO_DIR) && terraform
+OUT_DIR ?= ./artifacts
 
 .PHONY: help
 help:
@@ -71,3 +72,21 @@ deploy: ## deploy resources
 .PHONY: destroy
 destroy: ## destroy resources
 	$(TERRAFORM) destroy -auto-approve
+
+# Generate deployment credentials: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#generate-deployment-credentials
+.PHONY: create-for-rbac
+create-for-rbac: ## create service principal for RBAC
+	mkdir -p $(OUT_DIR)
+	az ad sp create-for-rbac \
+		--name test-baseline-environment-on-azure-terraform \
+		--role contributor \
+		--scopes /subscriptions/$(SUBSCRIPTION_ID) \
+		--sdk-auth > $(OUT_DIR)/azure-credentials.json
+
+# Configure the GitHub secrets: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#configure-the-github-secrets
+.PHONY: configure-github-secrets
+configure-github-secrets: ## configure GitHub secrets
+	cat $(OUT_DIR)/azure-credentials.json | jq -r .clientId | gh secret set AZURE_CLIENT_ID
+	cat $(OUT_DIR)/azure-credentials.json | jq -r .clientSecret | gh secret set AZURE_CLIENT_SECRET
+	cat $(OUT_DIR)/azure-credentials.json | jq -r .subscriptionId | gh secret set AZURE_SUBSCRIPTION_ID
+	cat $(OUT_DIR)/azure-credentials.json | jq -r .tenantId | gh secret set AZURE_TENANT_ID
