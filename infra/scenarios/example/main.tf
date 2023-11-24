@@ -29,3 +29,16 @@ module "resource_group" {
   location = var.location
   tags     = var.tags
 }
+
+module "openai" {
+  source                        = "../../modules/openai"
+  name                          = var.name_prefix == null ? "${random_string.prefix.result}${var.openai_name}" : "${var.name_prefix}${var.openai_name}"
+  location                      = var.location
+  resource_group_name           = module.resource_group.name
+  sku_name                      = var.openai_sku_name
+  tags                          = var.tags
+  deployments                   = var.openai_deployments
+  custom_subdomain_name         = var.openai_custom_subdomain_name == "" || var.openai_custom_subdomain_name == null ? var.name_prefix == null ? lower("${random_string.prefix.result}${var.openai_name}") : lower("${var.name_prefix}${var.openai_name}") : lower(var.openai_custom_subdomain_name)
+  public_network_access_enabled = var.openai_public_network_access_enabled
+  log_analytics_workspace_id    = module.log_analytics_workspace.id
+}
