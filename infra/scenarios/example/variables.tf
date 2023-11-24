@@ -16,6 +16,7 @@ variable "tags" {
   default = {
     scenario = "example"
   }
+  type = map(string)
 }
 
 variable "resource_group_name" {
