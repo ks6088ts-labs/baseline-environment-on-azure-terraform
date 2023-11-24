@@ -25,6 +25,23 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "log_analytics_workspace_name" {
+  description = "Specifies the name of the log analytics workspace"
+  default     = "Workspace"
+  type        = string
+}
+
+variable "solution_plan_map" {
+  description = "Specifies solutions to deploy to log analytics workspace"
+  default = {
+    ContainerInsights = {
+      product   = "OMSGallery/ContainerInsights"
+      publisher = "Microsoft"
+    }
+  }
+  type = map(any)
+}
+
 variable "openai_name" {
   description = "(Required) Specifies the name of the Azure OpenAI Service"
   type        = string

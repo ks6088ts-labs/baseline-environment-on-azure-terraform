@@ -30,6 +30,15 @@ module "resource_group" {
   tags     = var.tags
 }
 
+module "log_analytics_workspace" {
+  source              = "../../modules/log_analytics"
+  name                = var.name_prefix == null ? "${random_string.prefix.result}${var.log_analytics_workspace_name}" : "${var.name_prefix}${var.log_analytics_workspace_name}"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  solution_plan_map   = var.solution_plan_map
+  tags                = var.tags
+}
+
 module "openai" {
   source                        = "../../modules/openai"
   name                          = var.name_prefix == null ? "${random_string.prefix.result}${var.openai_name}" : "${var.name_prefix}${var.openai_name}"
