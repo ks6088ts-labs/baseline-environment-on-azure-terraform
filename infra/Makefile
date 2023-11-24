@@ -31,6 +31,7 @@ info: ## show information
 .PHONY: install-deps-dev
 install-deps-dev: ## install dependencies for development
 	@which terraform || echo "Please install Terraform: https://developer.hashicorp.com/terraform/install"
+	@which tflint || echo "Please install tflint: https://github.com/terraform-linters/tflint#installation"
 	@which tfsec || echo "Please install tfsec: https://aquasecurity.github.io/tfsec/v1.4.2/getting-started/installation/"
 
 .PHONY: clear
@@ -45,6 +46,16 @@ init:
 lint:
 	$(TERRAFORM) fmt -check
 	$(TERRAFORM) validate
+
+.PHONY: tflint
+tflint:
+	@if [ -x "$(shell command -v tflint)" ]; then \
+		echo "Running tflint..."; \
+		tflint --init; \
+		tflint --recursive; \
+	else \
+		echo "tflint is not installed. Skipping..."; \
+	fi
 
 .PHONY: tfsec
 tfsec:
@@ -71,7 +82,7 @@ test: ## test codes
 _ci-test-base: install-deps-dev clear init lint test plan
 
 .PHONY: ci-test
-ci-test: tfsec ## ci test
+ci-test: tflint tfsec ## ci test
 	@for dir in $(SCENARIO_DIR_LIST) ; do \
 		echo "Test: $$dir" ; \
 		make _ci-test-base SCENARIO=$$(basename $$dir) || exit 1 ; \

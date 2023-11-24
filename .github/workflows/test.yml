@@ -27,6 +27,10 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ matrix.terraform-version }}
+      - uses: terraform-linters/setup-tflint@v3
+        name: Setup TFLint
+        with:
+          tflint_version: v0.44.1
       - name: tfsec
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
