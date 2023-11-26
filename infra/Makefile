@@ -76,7 +76,7 @@ plan:
 
 .PHONY: test
 test: ## test codes
-	@echo "test: Skip since not implemented yet"
+	$(TERRAFORM) test
 
 .PHONY: _ci-test-base
 _ci-test-base: install-deps-dev clear init lint test plan
