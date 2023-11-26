@@ -10,7 +10,7 @@ TENANT_ID ?= $(shell az account show --query tenantId --output tsv)
 # Terraform
 SCENARIO ?= example
 SCENARIO_DIR ?= scenarios/$(SCENARIO)
-SCENARIO_DIR_LIST ?= $(shell find scenarios/* -name ".terraform" -prune -o -type d -print)
+SCENARIO_DIR_LIST ?= $(shell find scenarios -maxdepth 1 -mindepth 1 -type d -print)
 
 TERRAFORM ?= cd $(SCENARIO_DIR) && terraform
 OUT_DIR ?= ./artifacts
@@ -76,7 +76,7 @@ plan:
 
 .PHONY: test
 test: ## test codes
-	@echo "test: Skip since not implemented yet"
+	$(TERRAFORM) test
 
 .PHONY: _ci-test-base
 _ci-test-base: install-deps-dev clear init lint test plan
