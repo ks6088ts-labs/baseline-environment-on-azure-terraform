@@ -4,6 +4,10 @@ on:
   push:
     paths:
       - infra/**
+    branches:
+      - main
+  schedule:
+    - cron: "00 00 * * 3"
   workflow_dispatch:
 
 jobs:
@@ -11,13 +15,13 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest]
-        terraform-version: [1.6.4]
+        terraform-version: [1.9.8]
     runs-on: ${{ matrix.platform }}
     env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

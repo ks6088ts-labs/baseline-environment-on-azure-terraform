@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.81.0"
+      version = "~> 4.5.0"
     }
   }
 }
@@ -41,8 +41,8 @@ resource "azurerm_cognitive_deployment" "deployment" {
     version = each.value.model.version
   }
 
-  scale {
-    type = "Standard"
+  sku {
+    name = "Standard"
   }
 }
 

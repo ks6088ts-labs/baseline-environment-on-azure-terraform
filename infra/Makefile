@@ -89,7 +89,7 @@ ci-test: tflint tfsec ## ci test
 	done
 
 .PHONY: deploy
-deploy: ## deploy resources
+deploy: init ## deploy resources
 	$(TERRAFORM) apply -auto-approve
 
 .PHONY: destroy

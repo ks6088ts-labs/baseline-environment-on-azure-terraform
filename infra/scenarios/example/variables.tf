@@ -87,14 +87,6 @@ variable "openai_deployments" {
       rai_policy_name = ""
     },
     {
-      name = "gpt-35-turbo-16k"
-      model = {
-        name    = "gpt-35-turbo-16k"
-        version = "0613"
-      }
-      rai_policy_name = ""
-    },
-    {
       name = "text-embedding-ada-002"
       model = {
         name    = "text-embedding-ada-002"
