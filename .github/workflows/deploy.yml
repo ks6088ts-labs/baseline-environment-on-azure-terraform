@@ -1,0 +1,40 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        type: string
+        required: true
+        description: 'Scenario to deploy'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+        terraform-version: [1.9.8]
+    runs-on: ${{ matrix.platform }}
+    environment: dev
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_USE_OIDC: ${{secrets.ARM_USE_OIDC}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ matrix.terraform-version }}
+      - name: deploy scenario
+        run: |
+          cd infra
+          make deploy SCENARIO=${{ github.event.inputs.scenario }}
