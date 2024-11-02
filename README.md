@@ -32,3 +32,4 @@ test                           test codes
 | Scenario                                                                           | Overview                  |
 | ---------------------------------------------------------------------------------- | ------------------------- |
 | [manage_microsoft_entra_id](./infra/scenarios/manage_microsoft_entra_id/README.md) | Manage Microsoft Entra ID |
+| [create_storage](./infra/scenarios/create_storage/README.md)                       | Create storage            |
