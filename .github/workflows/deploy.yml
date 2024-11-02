@@ -7,6 +7,14 @@ on:
         type: string
         required: true
         description: 'Scenario to deploy'
+      command:
+        type: choice
+        required: true
+        description: 'Command to run'
+        default: 'deploy'
+        options:
+          - deploy
+          - destroy
 
 permissions:
   id-token: write
@@ -37,4 +45,4 @@ jobs:
       - name: deploy scenario
         run: |
           cd infra
-          make deploy SCENARIO=${{ github.event.inputs.scenario }}
+          make ${{ github.event.inputs.command }} SCENARIO=${{ github.event.inputs.scenario }}

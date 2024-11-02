@@ -93,7 +93,7 @@ deploy: init ## deploy resources
 	$(TERRAFORM) apply -auto-approve
 
 .PHONY: destroy
-destroy: ## destroy resources
+destroy: init ## destroy resources
 	$(TERRAFORM) destroy -auto-approve
 
 # Generate deployment credentials: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#generate-deployment-credentials
