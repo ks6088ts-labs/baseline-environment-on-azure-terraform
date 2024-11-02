@@ -36,6 +36,8 @@ resource "azurerm_storage_account" "sa" {
   account_tier                    = "Standard"
   account_replication_type        = "LRS"
   allow_nested_items_to_be_public = false
+  min_tls_version                 = "TLS1_2"
+
   identity {
     type = "SystemAssigned"
   }
