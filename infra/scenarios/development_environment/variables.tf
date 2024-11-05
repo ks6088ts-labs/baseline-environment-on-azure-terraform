@@ -9,3 +9,9 @@ variable "group_name" {
   type        = string
   default     = "group"
 }
+
+variable "service_principal_name" {
+  description = "(Required) Specifies the service principal name"
+  type        = string
+  default     = "development_environment"
+}
