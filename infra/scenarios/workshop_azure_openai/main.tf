@@ -42,3 +42,12 @@ module "ai_services" {
   deployments           = var.deployments
   custom_subdomain_name = "${var.name}aiservices${random_string.resource_code.result}"
 }
+
+module "bing_search" {
+  source            = "../../modules/bing_search"
+  name              = "${var.name}bingsearch${random_string.resource_code.result}"
+  location          = "global"
+  resource_group_id = azurerm_resource_group.rg.id
+  sku_name          = "S1"
+  tags              = var.tags
+}
