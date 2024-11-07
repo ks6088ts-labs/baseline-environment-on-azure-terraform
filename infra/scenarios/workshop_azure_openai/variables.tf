@@ -1,17 +1,17 @@
 variable "name" {
-  description = "(Required) Specifies the name"
+  description = "Specifies the name"
   type        = string
   default     = "workshopazureopenai"
 }
 
 variable "location" {
-  description = "(Required) Specifies the location"
+  description = "Specifies the location"
   type        = string
   default     = "japaneast"
 }
 
 variable "tags" {
-  description = "(Optional) Specifies the tags"
+  description = "Specifies the tags"
   type        = map(any)
   default = {
     scenario = "workshop_azure_openai"
@@ -19,7 +19,7 @@ variable "tags" {
 }
 
 variable "deployments" {
-  description = "(Optional) Specifies the deployments of the Azure OpenAI Service"
+  description = "Specifies the deployments of the Azure OpenAI Service"
   type = list(object({
     name = string
     model = object({

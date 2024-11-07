@@ -5,6 +5,11 @@
 [Azure Provider: Authenticating using the Azure CLI > Configuring Azure CLI authentication in Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli#configuring-azure-cli-authentication-in-terraform)
 
 ```shell
+# Log in to Azure
+az login
+
+# az ad signed-in-user show
+
 # Set environment variables
 export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 
@@ -13,19 +18,6 @@ SCENARIO="YOUR_SCENARIO"
 
 # Deploy infrastructure
 make deploy SCENARIO=${SCENARIO}
-```
-
-## Destroy infrastructure
-
-```shell
-# Set environment variables
-export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
-
-# Set scenario name
-SCENARIO="YOUR_SCENARIO"
-
-# Deploy infrastructure
-make destroy SCENARIO=${SCENARIO}
 # or az group delete --name $RESOURCE_GROUP_NAME --yes
 ```
 
@@ -40,11 +32,11 @@ make destroy SCENARIO=${SCENARIO}
 export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 
 # Set input variables
-export TF_VAR_name="tfstate"
+export TF_VAR_name="your-unique-name"
 
 # Deploy infrastructure
 cd infra
-make deploy SCENARIO=create_storage
+make deploy SCENARIO=tfstate_backend
 ```
 
 ## Override backend configuration
@@ -55,15 +47,15 @@ Currently, Terraform state is stored in the local file system. To store the stat
 # Go to the infra directory
 cd infra
 
-SCEANRIO="manage_microsoft_entra_id"
+SCEANRIO="your_scenario_name"
 
 # Create overrride.tf file
 cat <<EOF > scenarios/$SCEANRIO/override.tf
 terraform {
   backend "azurerm" {
-    resource_group_name  = "tfstate"
-    storage_account_name = "tfstate"
-    container_name       = "tfstate"
+    container_name       = "your-container-name"
+    resource_group_name  = "your-resource-group-name"
+    storage_account_name = "your-storage-account-name"
     key                  = "$SCEANRIO.tfstate"
   }
 }

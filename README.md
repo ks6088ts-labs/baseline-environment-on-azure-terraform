@@ -29,9 +29,8 @@ test                           test codes
 
 ## Scenarios
 
-| Scenario                                                                           | Overview                  |
-| ---------------------------------------------------------------------------------- | ------------------------- |
-| [create_storage](./infra/scenarios/create_storage/README.md)                       | Create storage            |
-| [development_environment](./infra/scenarios/development_environment/README.md)     | Development environment   |
-| [manage_microsoft_entra_id](./infra/scenarios/manage_microsoft_entra_id/README.md) | Manage Microsoft Entra ID |
-| [workshop_azure_openai](./infra/scenarios/workshop_azure_openai/README.md)         | Workshop Azure OpenAI     |
+| Scenario                                                                       | Overview                                        |
+| ------------------------------------------------------------------------------ | ----------------------------------------------- |
+| [tfstate_backend](./infra/scenarios/tfstate_backend/README.md)                 | Create Terraform state backend in Azure Storage |
+| [development_environment](./infra/scenarios/development_environment/README.md) | Development environment                         |
+| [workshop_azure_openai](./infra/scenarios/workshop_azure_openai/README.md)     | Workshop Azure OpenAI                           |

@@ -20,34 +20,42 @@ provider "azurerm" {
   features {}
 }
 
-resource "random_string" "resource_code" {
+locals {
+  ai_services_name = "aoai${var.name}${module.random.random_string}"
+}
+
+module "random" {
+  source = "../../modules/random"
+
   length  = 5
   special = false
   upper   = false
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = "rg-${var.name}-${random_string.resource_code.result}"
+module "resource_group" {
+  source = "../../modules/resource_group"
+
+  name     = "rg-${var.name}-${module.random.random_string}"
   location = var.location
   tags     = var.tags
 }
 
 module "ai_services" {
   source                = "../../modules/ai_services"
-  name                  = "${var.name}aiservices${random_string.resource_code.result}"
+  name                  = local.ai_services_name
   location              = var.location
-  resource_group_name   = azurerm_resource_group.rg.name
+  resource_group_name   = module.resource_group.name
   sku_name              = "S0"
   tags                  = var.tags
   deployments           = var.deployments
-  custom_subdomain_name = "${var.name}aiservices${random_string.resource_code.result}"
+  custom_subdomain_name = local.ai_services_name
 }
 
 module "bing_search" {
   source            = "../../modules/bing_search"
-  name              = "${var.name}bingsearch${random_string.resource_code.result}"
+  name              = "bing${var.name}${module.random.random_string}"
   location          = "global"
-  resource_group_id = azurerm_resource_group.rg.id
+  resource_group_id = module.resource_group.id
   sku_name          = "S1"
   tags              = var.tags
 }
