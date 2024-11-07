@@ -1,6 +1,6 @@
-# Create Storage scenario
+# Create Terraform state backend in Azure Storage
 
-This is a scenario for describing how to create an Azure Storage account using Terraform.
+This is a scenario for creating a Terraform state backend in Azure Storage.
 
 ## References
 

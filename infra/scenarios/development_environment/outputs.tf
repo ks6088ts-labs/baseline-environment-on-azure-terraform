@@ -1,5 +1,5 @@
 output "client_id" {
-  value       = module.service_principal.service_principal_client_id
+  value       = azuread_service_principal.service_principal.client_id
   description = "Application client ID"
 }
 

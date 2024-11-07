@@ -8,7 +8,7 @@ SUBSCRIPTION_NAME ?= $(shell az account show --query name --output tsv)
 TENANT_ID ?= $(shell az account show --query tenantId --output tsv)
 
 # Terraform
-SCENARIO ?= example
+SCENARIO ?= tfstate_backend
 SCENARIO_DIR ?= scenarios/$(SCENARIO)
 SCENARIO_DIR_LIST ?= $(shell find scenarios -maxdepth 1 -mindepth 1 -type d -print)
 
@@ -75,7 +75,7 @@ plan:
 	$(TERRAFORM) plan
 
 .PHONY: test
-test: ## test codes
+test: init ## test codes
 	$(TERRAFORM) test
 
 .PHONY: _ci-test-base
@@ -96,7 +96,7 @@ deploy: init ## deploy resources
 destroy: init ## destroy resources
 	$(TERRAFORM) destroy -auto-approve
 
-# Generate deployment credentials: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#generate-deployment-credentials
+# Generate deployment credentials: https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#generate-deployment-credentials
 .PHONY: create-for-rbac
 create-for-rbac: ## create service principal for RBAC
 	mkdir -p $(OUT_DIR)
@@ -106,7 +106,7 @@ create-for-rbac: ## create service principal for RBAC
 		--scopes /subscriptions/$(SUBSCRIPTION_ID) \
 		--sdk-auth > $(OUT_DIR)/azure-credentials.json
 
-# Configure the GitHub secrets: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#configure-the-github-secrets
+# Configure the GitHub secrets: https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#configure-the-github-secrets
 .PHONY: configure-github-secrets
 configure-github-secrets: ## configure GitHub secrets
 	cat $(OUT_DIR)/azure-credentials.json | jq -r .clientId | gh secret set AZURE_CLIENT_ID

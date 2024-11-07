@@ -2,11 +2,26 @@
 
 This is a scenario for describing how to create resources for development environment.
 
-## Prerequisites
+## [Configuring the Service Principal in Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#configuring-the-service-principal-in-terraform)
 
-WIP
+```shell
+# Set the following environment variables
+export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
+export ARM_CLIENT_SECRET="12345678-0000-0000-0000-000000000000"
+export ARM_TENANT_ID="10000000-0000-0000-0000-000000000000"
+export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+```
+
+## API Permissions
+
+- [azuread_domains](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/domains#api-permissions)
+- [azuread_user](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/user#api-permissions)
+- [azuread_group](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group#api-permissions)
+- [azuread_group_member](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group_member#api-permissions)
+- [azuread_application](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application#api-permissions)
+- [azuread_service_principal](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal#api-permissions)
 
 ## References
 
 - [Enable per-user Microsoft Entra multifactor authentication to secure sign-in events](https://learn.microsoft.com/entra/identity/authentication/howto-mfa-userstates)
-- [「現時点ではこれにはアクセスできません」 エラーについて](https://jpazureid.github.io/blog/azure-active-directory/conditional-cannot-access-rightnow/)
+- [Assign Azure roles using the Azure portal](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal)

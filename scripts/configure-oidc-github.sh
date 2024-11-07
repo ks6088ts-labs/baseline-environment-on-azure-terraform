@@ -3,7 +3,7 @@
 set -eux
 
 # Use GitHub Actions to connect to Azure:
-# https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-cli%2Clinux
+# https://learn.microsoft.com/azure/developer/github/connect-from-azure?tabs=azure-cli%2Clinux
 
 # get the directory of the script
 SCRIPT_DIR=$(cd "$(dirname "$0")" || exit; pwd)
