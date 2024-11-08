@@ -75,3 +75,7 @@ resource "azurerm_role_assignment" "role_assignment_service_principal" {
   role_definition_name = var.role_definition_name
   principal_id         = azuread_service_principal.service_principal.object_id
 }
+
+resource "azuread_service_principal_password" "service_principal_password" {
+  service_principal_id = azuread_service_principal.service_principal.id
+}

@@ -25,3 +25,5 @@ export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 
 - [Enable per-user Microsoft Entra multifactor authentication to secure sign-in events](https://learn.microsoft.com/entra/identity/authentication/howto-mfa-userstates)
 - [Assign Azure roles using the Azure portal](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal)
+- [Quickstart: Deploy Bicep files by using GitHub Actions > Generate deployment credentials](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=CLI%2Cuserlevel#generate-deployment-credentials)
+- [Quickstart: Deploy Bicep files by using GitHub Actions > Configure the GitHub secrets](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=CLI%2Cuserlevel#configure-the-github-secrets)
