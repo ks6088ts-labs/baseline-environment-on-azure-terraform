@@ -41,21 +41,25 @@ make deploy SCENARIO=tfstate_backend
 
 ## Override backend configuration
 
-Currently, Terraform state is stored in the local file system. To store the state in Azure Storage, you can override the backend configuration by following the steps below:
+Currently, Terraform state is stored in the local file system by default. To store the state in Azure Storage, you can override the backend configuration by following the steps below:
 
 ```shell
 # Go to the infra directory
 cd infra
 
-SCEANRIO="your_scenario_name"
+TFSTATE_BACKEND_SCENARIO="tfstate_backend"
+CONTAINER_NAME=$(make output SCENARIO=$TFSTATE_BACKEND_SCENARIO OUTPUT=container_name)
+RESOURCE_GROUP_NAME=$(make output SCENARIO=$TFSTATE_BACKEND_SCENARIO OUTPUT=resource_group_name)
+STORAGE_ACCOUNT_NAME=$(make output SCENARIO=$TFSTATE_BACKEND_SCENARIO OUTPUT=storage_account_name)
 
-# Create overrride.tf file
+# Create override.tf file
+SCEANRIO="your_scenario_name" # e.g., "workshop_azure_openai"
 cat <<EOF > scenarios/$SCEANRIO/override.tf
 terraform {
   backend "azurerm" {
-    container_name       = "your-container-name"
-    resource_group_name  = "your-resource-group-name"
-    storage_account_name = "your-storage-account-name"
+    container_name       = $CONTAINER_NAME
+    resource_group_name  = $RESOURCE_GROUP_NAME
+    storage_account_name = $STORAGE_ACCOUNT_NAME
     key                  = "$SCEANRIO.tfstate"
   }
 }
@@ -112,11 +116,36 @@ gh secret set ARM_SUBSCRIPTION_ID --body $SUBSCRIPTION_ID
 To configure the federated credential by following the steps below:
 
 1. Install [GitHub CLI](https://cli.github.com/) and authenticate with GitHub.
-1. [Create deployment environment](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-deployments/managing-environments-for-deployment#creating-an-environment) on GitHub named `dev`.
-1. Run a bash script to create a new service principal and configure OpenID Connect.
+1. Run the following command to create a new service principal and configure OpenID Connect.
 
 ```shell
-bash scripts/configure-oidc-github.sh
+# Create a new service principal
+bash scripts/create-service-principal.sh
+
+cd infra
+
+# create environment on GitHub
+make gh-create-env
+
+# set secrets on GitHub
+make gh-set-secrets
+
+# add permissions to the service principal
+
+# Domain.Read.All
+make ad-app-permission-add PERMISSION_ID="dbb9058a-0e50-45d7-ae91-66909b5d4664"
+
+# Group.ReadWrite.All
+make ad-app-permission-add PERMISSION_ID="62a82d76-70ea-41e2-9197-370581804d09"
+
+# GroupMember.ReadWrite.All
+make ad-app-permission-add PERMISSION_ID="dbaae8cf-10b5-4b86-a4a1-f871c94c6695"
+
+# User.ReadWrite.All
+make ad-app-permission-add PERMISSION_ID="741f803b-c850-494e-b5df-cde7c675a1ca"
+
+# grant admin consent
+make ad-app-permission-admin-consent
 ```
 
 - [Authenticating using a Service Principal and OpenID Connect](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_oidc)
@@ -126,3 +155,5 @@ bash scripts/configure-oidc-github.sh
 # References
 
 - [hashicorp/terraform-provider-azurerm](https://github.com/hashicorp/terraform-provider-azurerm)
+- [Use GitHub Actions to connect to Azure](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=CLI%2Cuserlevel#configure-the-github-secrets)
+- [Microsoft Graph permissions reference](https://learn.microsoft.com/en-us/graph/permissions-reference)

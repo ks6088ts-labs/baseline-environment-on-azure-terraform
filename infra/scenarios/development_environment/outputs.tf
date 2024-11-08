@@ -7,3 +7,8 @@ output "tenant_id" {
   value       = data.azuread_client_config.client_config.tenant_id
   description = "Tenant ID"
 }
+
+output "service_principal_password" {
+  value     = azuread_service_principal_password.service_principal_password.value
+  sensitive = true
+}

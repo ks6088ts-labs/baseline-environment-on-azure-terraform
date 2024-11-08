@@ -6,14 +6,22 @@ GIT_TAG ?= $(shell git describe --tags --abbrev=0 | sed -e s/v//g)
 SUBSCRIPTION_ID ?= $(shell az account show --query id --output tsv)
 SUBSCRIPTION_NAME ?= $(shell az account show --query name --output tsv)
 TENANT_ID ?= $(shell az account show --query tenantId --output tsv)
+APPLICATION_ID ?= $(shell az ad sp list --display-name "baseline-environment-on-azure-terraform" --query "[0].appId" --output tsv)
+RESOURCE_APP_ID ?= "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+PERMISSION_ID ?= "dbb9058a-0e50-45d7-ae91-66909b5d4664" # Domain.Read.All
+PERMISSION_SCOPE ?= "Domain.Read.All"
 
 # Terraform
 SCENARIO ?= tfstate_backend
 SCENARIO_DIR ?= scenarios/$(SCENARIO)
 SCENARIO_DIR_LIST ?= $(shell find scenarios -maxdepth 1 -mindepth 1 -type d -print)
-
 TERRAFORM ?= cd $(SCENARIO_DIR) && terraform
-OUT_DIR ?= ./artifacts
+OUTPUT ?= resource_group_name
+
+# GitHub
+GITHUB_ORG ?= ks6088ts-labs
+GITHUB_REPO ?= baseline-environment-on-azure-terraform
+GITHUB_ENV ?= dev
 
 .PHONY: help
 help:
@@ -96,20 +104,32 @@ deploy: init ## deploy resources
 destroy: init ## destroy resources
 	$(TERRAFORM) destroy -auto-approve
 
-# Generate deployment credentials: https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#generate-deployment-credentials
-.PHONY: create-for-rbac
-create-for-rbac: ## create service principal for RBAC
-	mkdir -p $(OUT_DIR)
-	az ad sp create-for-rbac \
-		--name test-baseline-environment-on-azure-terraform \
-		--role contributor \
-		--scopes /subscriptions/$(SUBSCRIPTION_ID) \
-		--sdk-auth > $(OUT_DIR)/azure-credentials.json
+.PHONY: output
+output: ## get output
+	@$(TERRAFORM) output $(OUTPUT)
 
-# Configure the GitHub secrets: https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI#configure-the-github-secrets
-.PHONY: configure-github-secrets
-configure-github-secrets: ## configure GitHub secrets
-	cat $(OUT_DIR)/azure-credentials.json | jq -r .clientId | gh secret set AZURE_CLIENT_ID
-	cat $(OUT_DIR)/azure-credentials.json | jq -r .clientSecret | gh secret set AZURE_CLIENT_SECRET
-	cat $(OUT_DIR)/azure-credentials.json | jq -r .subscriptionId | gh secret set AZURE_SUBSCRIPTION_ID
-	cat $(OUT_DIR)/azure-credentials.json | jq -r .tenantId | gh secret set AZURE_TENANT_ID
+.PHONY: gh-create-env
+gh-create-env: ## create environment on GitHub
+	# FIXME: https://github.com/cli/cli/issues/5149
+	# https://stackoverflow.com/a/71388564/4457856
+	gh api --method PUT -H "Accept: application/vnd.github+json" \
+		repos/$(GITHUB_ORG)/$(GITHUB_REPO)/environments/$(GITHUB_ENV)
+
+.PHONY: gh-set-secrets
+gh-set-secrets: ## set secrets on GitHub
+	gh secret set --env $(GITHUB_ENV) ARM_CLIENT_ID       --body $(APPLICATION_ID)
+	gh secret set --env $(GITHUB_ENV) ARM_SUBSCRIPTION_ID --body $(SUBSCRIPTION_ID)
+	gh secret set --env $(GITHUB_ENV) ARM_TENANT_ID       --body $(TENANT_ID)
+	gh secret set --env $(GITHUB_ENV) ARM_USE_OIDC        --body "true"
+
+.PHONY: ad-app-permission-add
+ad-app-permission-add: ## add permission to the application
+	az ad app permission add \
+		--id $(APPLICATION_ID) \
+		--api $(RESOURCE_APP_ID) \
+		--api-permissions $(PERMISSION_ID)=Role
+
+.PHONY: ad-app-permission-admin-consent
+ad-app-permission-admin-consent: ## admin consent to the application
+	az ad app permission admin-consent \
+		--id $(APPLICATION_ID)
