@@ -26,6 +26,13 @@ data "azurerm_subscription" "primary" {
 data "azuread_client_config" "client_config" {
 }
 
+data "azuread_application_published_app_ids" "well_known" {
+}
+
+data "azuread_service_principal" "msgraph" {
+  client_id = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
+}
+
 locals {
   domain_name = data.azuread_domains.default.domains[0].domain_name
 }
@@ -60,6 +67,29 @@ resource "azuread_application" "application" {
   owners = [
     data.azuread_client_config.client_config.object_id,
   ]
+  required_resource_access {
+    resource_app_id = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
+    resource_access {
+      id   = data.azuread_service_principal.msgraph.app_role_ids["Domain.Read.All"]
+      type = "Role"
+    }
+    resource_access {
+      id   = data.azuread_service_principal.msgraph.app_role_ids["Group.ReadWrite.All"]
+      type = "Role"
+    }
+    resource_access {
+      id   = data.azuread_service_principal.msgraph.app_role_ids["GroupMember.ReadWrite.All"]
+      type = "Role"
+    }
+    resource_access {
+      id   = data.azuread_service_principal.msgraph.app_role_ids["User.ReadWrite.All"]
+      type = "Role"
+    }
+    resource_access {
+      id   = data.azuread_service_principal.msgraph.app_role_ids["Application.ReadWrite.All"]
+      type = "Role"
+    }
+  }
 }
 
 resource "azuread_service_principal" "service_principal" {
