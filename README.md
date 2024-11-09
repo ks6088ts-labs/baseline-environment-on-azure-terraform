@@ -1,6 +1,8 @@
 [![test](https://github.com/ks6088ts-labs/baseline-environment-on-azure-terraform/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/ks6088ts-labs/baseline-environment-on-azure-terraform/actions/workflows/test.yml?query=branch%3Amain)
 [![deploy](https://github.com/ks6088ts-labs/baseline-environment-on-azure-terraform/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ks6088ts-labs/baseline-environment-on-azure-terraform/actions/workflows/deploy.yml?query=branch%3Amain)
 
+[![Open in GitHub Codespaces](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub+Codespaces&message=Open&color=brightgreen&logo=github)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=721866314&machine=basicLinux32gb&devcontainer_path=.devcontainer%2Fdevcontainer.json&location=SoutheastAsia)
+
 # baseline-environment-on-azure-terraform
 
 Baseline Environment on Azure in Terraform is a set of reference Terraform template
