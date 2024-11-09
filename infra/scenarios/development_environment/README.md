@@ -1,8 +1,8 @@
-# Development Environment
+# Set up development environment
 
-This is a scenario for describing how to create resources for development environment.
+This is a scenario for setting up a development environment.
 
-## Set up development environment
+## Deploy resources
 
 ```shell
 # Go to the infra directory
@@ -59,6 +59,8 @@ make ci-test
 ```
 
 ## API Permissions
+
+Terraform provides the following awesome documentation for Azure AD resources:
 
 - [azuread_domains](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/domains#api-permissions)
 - [azuread_user](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/user#api-permissions)

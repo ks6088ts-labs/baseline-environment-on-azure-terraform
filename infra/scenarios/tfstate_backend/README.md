@@ -1,4 +1,4 @@
-# Create Terraform state backend in Azure Storage
+# Create Terraform state backend on Azure Storage
 
 This is a scenario for creating a Terraform state backend in Azure Storage.
 
