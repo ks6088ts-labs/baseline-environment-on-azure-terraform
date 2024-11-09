@@ -2,7 +2,7 @@
 
 set -eux
 
-GITHUB_ENV_NAME="dev2"
+GITHUB_ENV_NAME="dev"
 APPLICATION_ID=$(az ad sp list --display-name "baseline-environment-on-azure-terraform" --query "[0].appId" --output tsv)
 SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 TENANT_ID=$(az account show --query tenantId --output tsv)
