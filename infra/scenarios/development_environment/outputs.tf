@@ -1,6 +1,11 @@
-output "client_id" {
+output "service_principal_client_id" {
   value       = azuread_service_principal.service_principal.client_id
-  description = "Application client ID"
+  description = "Service Principal Client ID"
+}
+
+output "application_object_id" {
+  value       = azuread_application.application.object_id
+  description = "Application Object ID"
 }
 
 output "tenant_id" {

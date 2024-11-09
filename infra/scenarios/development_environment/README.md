@@ -2,14 +2,60 @@
 
 This is a scenario for describing how to create resources for development environment.
 
+## Set up development environment
+
+```shell
+# Go to the infra directory
+cd infra
+
+# Set scenario name
+SCENARIO="development_environment"
+
+# Create override.tf file to store Terraform state in Azure Storage
+cat <<EOF > scenarios/$SCENARIO/override.tf
+terraform {
+  backend "azurerm" {
+    container_name       = "yourcontainername"
+    resource_group_name  = "yourresourcegroupname"
+    storage_account_name = "yourstorageaccountname"
+    key                  = "$SCENARIO.tfstate"
+  }
+}
+EOF
+
+# Log in to Azure
+az login
+
+# (Optional) Confirm the details for the currently logged-in user
+az ad signed-in-user show
+
+# Set environment variables
+export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+
+# Deploy infrastructure
+make deploy SCENARIO=$SCENARIO
+
+# Get output variables
+cd scenarios/$SCENARIO
+application_object_id=$(terraform output -raw application_object_id)
+
+az ad app permission admin-consent --id $application_object_id
+```
+
 ## [Configuring the Service Principal in Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#configuring-the-service-principal-in-terraform)
 
 ```shell
-# Set the following environment variables
-export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
-export ARM_CLIENT_SECRET="12345678-0000-0000-0000-000000000000"
-export ARM_TENANT_ID="10000000-0000-0000-0000-000000000000"
+cd scenarios/$SCENARIO
+
+# To authenticate using a Service Principal with a Client Secret, pass the following environment variables:
+export ARM_TENANT_ID=$(terraform output -raw tenant_id)
 export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+export ARM_CLIENT_ID=$(terraform output -raw service_principal_client_id)
+export ARM_CLIENT_SECRET=$(terraform output -raw service_principal_password)
+
+# Hooray 🎉, you can now run Terraform commands which will use the Service Principal to authenticate
+# For example, you can run the following command to run CI tests using the Service Principal
+make ci-test
 ```
 
 ## API Permissions
