@@ -7,6 +7,10 @@ on:
         type: string
         required: true
         description: "Scenario to deploy"
+      environment:
+        type: string
+        required: true
+        description: "Environment to deploy"
 
 permissions:
   id-token: write
@@ -19,7 +23,7 @@ jobs:
         platform: [ubuntu-latest]
         terraform-version: [1.9.8]
     runs-on: ${{ matrix.platform }}
-    environment: dev
+    environment: ${{ github.event.inputs.environment }}
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
