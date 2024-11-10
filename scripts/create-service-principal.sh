@@ -4,7 +4,7 @@
 # https://learn.microsoft.com/azure/developer/github/connect-from-azure?tabs=azure-cli%2Clinux
 
 # for debugging, use `set -eux` instead of `set -eu`
-set -eux
+set -eu
 
 # verify the Azure CLI is installed
 if ! command -v az > /dev/null 2>&1; then
