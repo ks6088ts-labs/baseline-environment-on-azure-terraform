@@ -37,19 +37,19 @@ variable "actions_environment_secrets" {
   default = [
     {
       name  = "ARM_CLIENT_ID"
-      value = "YOUR_CLIENT_ID"
+      value = "WU9VUl9DTElFTlRfSUQ="
     },
     {
       name  = "ARM_SUBSCRIPTION_ID"
-      value = "YOUR_SUBSCRIPTION_ID"
+      value = "WU9VUl9TVUJTQ1JJUFRJT05fSUQ="
     },
     {
       name  = "ARM_TENANT_ID"
-      value = "YOUR_TENANT_ID"
+      value = "WU9VUl9URU5BTlRfSUQ="
     },
     {
       name  = "ARM_USE_OIDC"
-      value = "true" # true or false
+      value = "dHJ1ZQ==" # true or false
     },
   ]
 }
