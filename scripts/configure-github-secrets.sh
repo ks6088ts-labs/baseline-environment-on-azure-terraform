@@ -46,6 +46,9 @@ if [ "$response" != "y" ]; then
     exit 1
 fi
 
+# (Optional) Azure sign in
+# gh auth login
+
 # Create a new environment
 # https://github.com/cli/cli/issues/5149
 # https://stackoverflow.com/a/71388564/4457856

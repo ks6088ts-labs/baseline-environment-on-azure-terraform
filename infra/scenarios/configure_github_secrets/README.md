@@ -12,7 +12,7 @@ cd infra
 
 # Set the variables
 CREATE_GITHUB_REPOSITORY=false
-ENVIRONMENT=ci
+ENVIRONMENT=tf
 
 APPLICATION_ID=$(az ad sp list --display-name "baseline-environment-on-azure-terraform_$ENVIRONMENT" --query "[0].appId" --output tsv)
 SUBSCRIPTION_ID=$(az account show --query id --output tsv)

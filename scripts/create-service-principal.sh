@@ -41,8 +41,8 @@ if [ "$response" != "y" ]; then
     exit 1
 fi
 
-# Azure sign in
-az login
+# (Optional) Azure sign in
+# az login
 
 # Confirm the details for the currently logged-in user
 az ad signed-in-user show
@@ -86,3 +86,18 @@ az ad app federated-credential create \
 echo "AZURE_CLIENT_ID: $appId"
 echo "AZURE_SUBSCRIPTION_ID: $subscriptionId"
 echo "AZURE_TENANT_ID: $tenantId"
+
+# Add permissions to the service principal for Microsoft Graph API
+# Domain.Read.All, Group.ReadWrite.All, GroupMember.ReadWrite.All, User.ReadWrite.All, Application.ReadWrite.All
+MICROSOFT_GRAPH_API_ID="00000003-0000-0000-c000-000000000000"
+PERMISSIONS="dbb9058a-0e50-45d7-ae91-66909b5d4664 62a82d76-70ea-41e2-9197-370581804d09 dbaae8cf-10b5-4b86-a4a1-f871c94c6695 741f803b-c850-494e-b5df-cde7c675a1ca 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"
+
+for permission in $PERMISSIONS; do
+  az ad app permission add \
+    --id $appId \
+    --api $MICROSOFT_GRAPH_API_ID \
+    --api-permissions $permission=Role
+done
+
+# grant admin consent
+az ad app permission admin-consent --id $appId
