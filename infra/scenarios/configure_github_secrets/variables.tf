@@ -22,6 +22,12 @@ variable "repository_description" {
   default     = "This is an example repository created by Terraform"
 }
 
+variable "repository_visibility" {
+  description = "Specifies the visibility of the GitHub repository"
+  type        = string
+  default     = "private"
+}
+
 variable "environment_name" {
   description = "Specifies the name of the GitHub repository environment"
   type        = string
@@ -34,22 +40,5 @@ variable "actions_environment_secrets" {
     name  = string
     value = string
   }))
-  default = [
-    {
-      name  = "ARM_CLIENT_ID"
-      value = "WU9VUl9DTElFTlRfSUQ="
-    },
-    {
-      name  = "ARM_SUBSCRIPTION_ID"
-      value = "WU9VUl9TVUJTQ1JJUFRJT05fSUQ="
-    },
-    {
-      name  = "ARM_TENANT_ID"
-      value = "WU9VUl9URU5BTlRfSUQ="
-    },
-    {
-      name  = "ARM_USE_OIDC"
-      value = "dHJ1ZQ==" # true or false
-    },
-  ]
+  default = []
 }

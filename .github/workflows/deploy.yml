@@ -7,10 +7,12 @@ on:
         type: string
         required: true
         description: "Scenario to deploy"
+        default: "tfstate_backend"
       environment:
-        type: string
+        type: environment
         required: true
         description: "Environment to deploy"
+        default: "dev"
 
 permissions:
   id-token: write
