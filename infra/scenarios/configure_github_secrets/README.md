@@ -1,4 +1,4 @@
-# Configure GitHub Secrets
+# Configure GitHub secrets
 
 This is a scenario for configuring GitHub secrets.
 

@@ -10,12 +10,6 @@ variable "group_name" {
   default     = "group"
 }
 
-variable "service_principal_name" {
-  description = "Specifies the service principal name"
-  type        = string
-  default     = "development_environment"
-}
-
 variable "role_definition_name" {
   description = "Specifies the role definition name"
   type        = string
