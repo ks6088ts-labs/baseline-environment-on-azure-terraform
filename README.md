@@ -23,12 +23,13 @@ See [Makefile](./infra/Makefile) for details.
 
 ## Scenarios
 
-| Scenario                                                                         | Overview                                        |
-| -------------------------------------------------------------------------------- | ----------------------------------------------- |
-| [tfstate_backend](./infra/scenarios/tfstate_backend/README.md)                   | Create Terraform state backend on Azure Storage |
-| [development_environment](./infra/scenarios/development_environment/README.md)   | Development environment                         |
-| [configure_github_secrets](./infra/scenarios/configure_github_secrets/README.md) | Configure GitHub Secrets                        |
-| [workshop_azure_openai](./infra/scenarios/workshop_azure_openai/README.md)       | Workshop Azure OpenAI                           |
+| Scenario                                                                         | Overview                                                                                                         |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| [configure_github_secrets](./infra/scenarios/configure_github_secrets/README.md) | Configure GitHub secrets ( CLI version: [configure-github-secrets.sh](./scripts/configure-github-secrets.sh) )   |
+| [create_service_principal](./infra/scenarios/create_service_principal/README.md) | Create a service principal ( CLI version: [create-service-principal.sh](./scripts/create-service-principal.sh) ) |
+| [create_user_group](./infra/scenarios/create_user_group/README.md)               | Create a new user and group in Microsoft Entra ID                                                                |
+| [tfstate_backend](./infra/scenarios/tfstate_backend/README.md)                   | Create Terraform state backend on Azure Storage                                                                  |
+| [workshop_azure_openai](./infra/scenarios/workshop_azure_openai/README.md)       | Workshop for Azure OpenAI Service                                                                                |
 
 ## How to manage infrastructure on Azure using Terraform
 

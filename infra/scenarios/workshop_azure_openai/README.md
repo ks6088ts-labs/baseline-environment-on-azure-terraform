@@ -1,4 +1,4 @@
-# Workshop Azure OpenAI
+# Workshop for Azure OpenAI Servicec
 
 This is a scenario for describing how to create resources for [Workshop for Azure OpenAI Service](https://ks6088ts-labs.github.io/workshop-azure-openai/)
 

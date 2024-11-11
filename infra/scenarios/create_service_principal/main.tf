@@ -76,3 +76,12 @@ resource "azurerm_role_assignment" "role_assignment_service_principal" {
 resource "azuread_service_principal_password" "service_principal_password" {
   service_principal_id = azuread_service_principal.service_principal.id
 }
+
+resource "azuread_application_federated_identity_credential" "application_federated_identity_credential" {
+  application_id = azuread_application.application.id
+  display_name   = var.service_principal_name
+  description    = "federated identity credential for ${var.service_principal_name}"
+  audiences      = ["api://AzureADTokenExchange"]
+  issuer         = "https://token.actions.githubusercontent.com"
+  subject        = "repo:${var.github_organization}/${var.github_repository}:environment:${var.github_environment}"
+}
