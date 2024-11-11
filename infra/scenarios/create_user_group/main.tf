@@ -23,16 +23,6 @@ data "azuread_domains" "default" {
 data "azurerm_subscription" "primary" {
 }
 
-data "azuread_client_config" "client_config" {
-}
-
-data "azuread_application_published_app_ids" "well_known" {
-}
-
-data "azuread_service_principal" "msgraph" {
-  client_id = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
-}
-
 locals {
   domain_name = data.azuread_domains.default.domains[0].domain_name
 }
