@@ -31,12 +31,14 @@ info: ## show information
 .PHONY: install-deps-dev
 install-deps-dev: ## install dependencies for development
 	@which terraform || echo "Please install Terraform: https://developer.hashicorp.com/terraform/install"
+	@which az || echo "Please install Azure CLI: https://docs.microsoft.com/cli/azure/install-azure-cli"
+	@which gh || echo "Please install GitHub CLI: https://cli.github.com/"
 	@which tflint || echo "Please install tflint: https://github.com/terraform-linters/tflint#installation"
 	@which tfsec || echo "Please install tfsec: https://aquasecurity.github.io/tfsec/v1.4.2/getting-started/installation/"
 
-.PHONY: clear
-clear:
-	cd $(SCENARIO_DIR) && rm -rf .terraform*
+.PHONY: clean
+clean:
+	cd $(SCENARIO_DIR) && rm -rf .terraform* terraform.*
 
 .PHONY: init
 init:
@@ -79,7 +81,7 @@ test: init ## test codes
 	$(TERRAFORM) test
 
 .PHONY: _ci-test-base
-_ci-test-base: install-deps-dev clear init lint test plan
+_ci-test-base: install-deps-dev clean init lint test plan
 
 .PHONY: ci-test
 ci-test: tflint tfsec ## ci test

@@ -2,11 +2,11 @@
 
 This is a scenario for creating a new user and group in Microsoft Entra ID.
 
-## Deploy resources
+## How to use
 
 ```shell
-# Go to the infra directory
-cd infra
+# Move to the scenario directory
+cd infra/scenarios/create_user_group
 
 # Log in to Azure
 az login
@@ -17,14 +17,19 @@ az ad signed-in-user show
 # Set environment variables
 export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 
-# Deploy infrastructure
-make deploy SCENARIO="create_user_group"
+# Initialize the Terraform configuration.
+terraform init
 
-# Destroy infrastructure
-make destroy SCENARIO="create_user_group"
+# Deploy the infrastructure
+terraform apply -auto-approve
+
+# Destroy the infrastructure
+terraform destroy -auto-approve
 ```
 
-## API Permissions
+## References
+
+### API Permissions
 
 - [azuread_domains](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/domains#api-permissions)
 - [azuread_user](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/user#api-permissions)
