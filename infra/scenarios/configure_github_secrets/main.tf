@@ -41,5 +41,5 @@ resource "github_actions_environment_secret" "actions_environment_secret" {
   repository      = local.repository_name
   environment     = github_repository_environment.repository_environment.environment
   secret_name     = each.value.name
-  encrypted_value = each.value.value
+  plaintext_value = each.value.value
 }

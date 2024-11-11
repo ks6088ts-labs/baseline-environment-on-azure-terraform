@@ -12,7 +12,7 @@ on:
         type: environment
         required: true
         description: "Environment to deploy"
-        default: "dev"
+        default: "ci"
 
 permissions:
   id-token: write

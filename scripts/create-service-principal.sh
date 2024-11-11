@@ -14,7 +14,7 @@ if ! command -v az > /dev/null 2>&1; then
 fi
 
 # type GitHub environment name
-echo "Enter the name of the GitHub environment: (e.g. 'dev', 'prod')"
+echo "Enter the name of the GitHub environment: (e.g. 'ci', 'development', 'production')"
 printf "GITHUB_ENV_NAME="
 read -r GITHUB_ENV_NAME
 
@@ -24,7 +24,7 @@ printf "GITHUB_REPOSITORY="
 read -r GITHUB_REPOSITORY
 
 # type the name of the application
-echo "Enter the name of the application: (e.g. 'baseline-environment-on-azure-terraform')"
+echo "Enter the name of the application: (e.g. 'baseline-environment-on-azure-terraform_ci')"
 printf "APP_NAME="
 read -r APP_NAME
 
@@ -34,7 +34,7 @@ echo "> GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
 echo "> APP_NAME: $APP_NAME"
 
 # type `y` to proceed
-echo "Do you want to proceed? [y/N]"
+printf "Do you want to proceed? [y/N]: "
 read -r response
 if [ "$response" != "y" ]; then
     echo "Operation aborted."

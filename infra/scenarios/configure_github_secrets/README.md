@@ -5,27 +5,26 @@ This is a scenario for configuring GitHub secrets.
 ## How to use
 
 ```shell
+# Authenticate with a GitHub host.
+gh auth login
+
 cd infra
 
 # Set the variables
-CREATE_GITHUB_REPOSITORY=true
+CREATE_GITHUB_REPOSITORY=false
+ENVIRONMENT=ci
 
-APPLICATION_ID=$(az ad sp list --display-name "baseline-environment-on-azure-terraform" --query "[0].appId" --output tsv)
+APPLICATION_ID=$(az ad sp list --display-name "baseline-environment-on-azure-terraform_$ENVIRONMENT" --query "[0].appId" --output tsv)
 SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 TENANT_ID=$(az account show --query tenantId --output tsv)
-
-# Encode the variables
-APPLICATION_ID=$(echo $APPLICATION_ID | base64)
-SUBSCRIPTION_ID=$(echo $SUBSCRIPTION_ID | base64)
-TENANT_ID=$(echo $TENANT_ID | base64)
 
 # Create the tfvars file
 SCENARIO="configure_github_secrets"
 cat <<EOF > scenarios/$SCENARIO/terraform.tfvars
-create_github_repository = true
+create_github_repository = "$CREATE_GITHUB_REPOSITORY"
 organization = "ks6088ts-labs"
-repository_name = "example-repository"
-environment_name = "development"
+repository_name = "baseline-environment-on-azure-terraform"
+environment_name = "$ENVIRONMENT"
 actions_environment_secrets = [
     {
         name  = "ARM_CLIENT_ID"
