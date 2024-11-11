@@ -23,11 +23,12 @@ See [Makefile](./infra/Makefile) for details.
 
 ## Scenarios
 
-| Scenario                                                                       | Overview                                        |
-| ------------------------------------------------------------------------------ | ----------------------------------------------- |
-| [tfstate_backend](./infra/scenarios/tfstate_backend/README.md)                 | Create Terraform state backend on Azure Storage |
-| [development_environment](./infra/scenarios/development_environment/README.md) | Development environment                         |
-| [workshop_azure_openai](./infra/scenarios/workshop_azure_openai/README.md)     | Workshop Azure OpenAI                           |
+| Scenario                                                                         | Overview                                        |
+| -------------------------------------------------------------------------------- | ----------------------------------------------- |
+| [tfstate_backend](./infra/scenarios/tfstate_backend/README.md)                   | Create Terraform state backend on Azure Storage |
+| [development_environment](./infra/scenarios/development_environment/README.md)   | Development environment                         |
+| [configure_github_secrets](./infra/scenarios/configure_github_secrets/README.md) | Configure GitHub Secrets                        |
+| [workshop_azure_openai](./infra/scenarios/workshop_azure_openai/README.md)       | Workshop Azure OpenAI                           |
 
 ## How to manage infrastructure on Azure using Terraform
 
