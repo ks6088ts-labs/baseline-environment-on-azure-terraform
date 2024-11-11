@@ -11,7 +11,7 @@ if ! command -v gh > /dev/null 2>&1; then
 fi
 
 # type GitHub environment name
-echo "Enter the name of the GitHub environment: (e.g. 'dev', 'prod')"
+echo "Enter the name of the GitHub environment: (e.g. 'development', 'production')"
 printf "GITHUB_ENV_NAME="
 read -r GITHUB_ENV_NAME
 
