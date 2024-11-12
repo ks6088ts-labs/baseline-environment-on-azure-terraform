@@ -166,7 +166,9 @@ gh secret set ARM_SUBSCRIPTION_ID --body $SUBSCRIPTION_ID
 
 ### (Recommended) OpenID Connect
 
-To configure the federated credential by following the steps below:
+To configure the federated credential by following the two kinds of steps
+
+### 1. Shell script
 
 1. Install [GitHub CLI](https://cli.github.com/) and authenticate with GitHub.
 1. Run the following commands to create a new service principal and configure OpenID Connect.
@@ -181,6 +183,10 @@ bash scripts/configure-github-secrets.sh
 
 - [Authenticating using a Service Principal and OpenID Connect](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_oidc)
 - [Configuring OpenID Connect in Azure](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-azure)
+
+### 2. Terraform
+
+Details are described in [Use GitHub Actions to connect to Azure with OpenID Connect](./docs/recipes/configure_oidc_azure.md).
 
 # References
 
