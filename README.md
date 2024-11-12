@@ -11,6 +11,13 @@ Baseline Environment on Azure in Terraform is a set of reference Terraform templ
 
 - [GNU Make](https://www.gnu.org/software/make/)
 - [Terraform](https://github.com/Azure/azure-cli#installation) 1.6 or later
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
+- [GitHub CLI](https://cli.github.com/)
+
+For development:
+
+- [tflint](https://github.com/terraform-linters/tflint)
+- [tfsec](https://github.com/aquasecurity/tfsec)
 
 ## Usage
 
@@ -19,6 +26,13 @@ See [Makefile](./infra/Makefile) for details.
 ```shell
 # Show help
 ❯ cd infra; make help
+ci-test                        ci test
+deploy                         deploy resources
+destroy                        destroy resources
+format                         format terraform codes
+info                           show information
+install-deps-dev               install dependencies for development
+test                           test codes
 ```
 
 ## Scenarios
@@ -45,6 +59,12 @@ az login
 # (Optional) Confirm the details for the currently logged-in user
 az ad signed-in-user show
 
+# Authenticate with a GitHub host.
+gh auth login
+
+# (Optional) Display active account and authentication state on each known GitHub host.
+gh auth status
+
 # Set variables
 export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 SCENARIO="YOUR_SCENARIO"
@@ -58,38 +78,33 @@ make destroy SCENARIO=$SCENARIO
 
 ## Customize deployment
 
-### Override variables
-
-- [Input Variables](https://developer.hashicorp.com/terraform/language/values/variables)
+### Override [Input Variables](https://developer.hashicorp.com/terraform/language/values/variables)
 
 ```shell
-# Go to the `infra` directory
-cd infra
-
 # Override `name` variable defined in `variables.tf`
 export TF_VAR_name="youruniquename"
 
 # Deploy infrastructure
-make deploy SCENARIO=tfstate_backend
+terraform apply
 ```
 
-### Override backend configuration
+### [Override Files](https://developer.hashicorp.com/terraform/language/files/override)
 
 Currently, Terraform state is stored in the local file system by default. To store the state in Azure Storage, you can override the backend configuration by creating an `override.tf` file.
 Refer to the following documents for more information:
 
 - [Backend Type: azurerm | Terraform](https://developer.hashicorp.com/terraform/language/backend/azurerm)
-- [Override Files](https://developer.hashicorp.com/terraform/language/files/override)
 
 Here is an example of how to override the backend configuration:
 
 ```shell
+SCENARIO="your_scenario_name" # e.g., "workshop_azure_openai"
+
 # Go to the infra directory
-cd infra
+cd infra/scenarios/$SCENARIO
 
 # Create override.tf file to a specific scenario
-SCENARIO="your_scenario_name" # e.g., "workshop_azure_openai"
-cat <<EOF > scenarios/$SCENARIO/override.tf
+cat <<EOF > override.tf
 terraform {
   backend "azurerm" {
     container_name       = "yourcontainername"
@@ -99,6 +114,8 @@ terraform {
   }
 }
 EOF
+
+# Do something like `terraform init`, `terraform apply`, etc.
 ```
 
 ## Development
@@ -119,9 +136,9 @@ make ci-test
 
 ## Set up GitHub Actions
 
-### Service Principal
+[Azure Provider: Authenticating using a Service Principal with a Client Secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) describes several ways about how to authenticate with Azure.
 
-[Azure Provider: Authenticating using a Service Principal with a Client Secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret)
+### Service Principal
 
 This is not recommended for production use, since the client secret needs to be stored in GitHub Actions secrets.
 For production use, consider using OpenID Connect instead.
@@ -147,7 +164,7 @@ gh secret set ARM_TENANT_ID --body $tenant
 gh secret set ARM_SUBSCRIPTION_ID --body $SUBSCRIPTION_ID
 ```
 
-### OpenID Connect
+### (Recommended) OpenID Connect
 
 To configure the federated credential by following the steps below:
 
@@ -164,7 +181,6 @@ bash scripts/configure-github-secrets.sh
 
 - [Authenticating using a Service Principal and OpenID Connect](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_oidc)
 - [Configuring OpenID Connect in Azure](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-azure)
-- [Check! GitHub Actions で OpenID Connect(OIDC) で Azure に安全に接続する](https://zenn.dev/dzeyelid/articles/5f20acbe549666)
 
 # References
 

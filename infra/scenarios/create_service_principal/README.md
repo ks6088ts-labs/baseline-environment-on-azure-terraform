@@ -2,16 +2,15 @@
 
 This is a scenario for creating a service principal in Microsoft Entra ID.
 
-## Deploy resources
+## Azure Active Directory Provider
+
+### How to use
 
 ```shell
-# Go to the infra directory
-cd infra
+# Move to the scenario directory
+cd infra/scenarios/create_service_principal
 
-# Set scenario name
-SCENARIO="create_service_principal"
-
-# Log in to Azure
+# Authenticate with Azure via Azure CLI
 az login
 
 # (Optional) Confirm the details for the currently logged-in user
@@ -22,18 +21,27 @@ export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 export TF_VAR_service_principal_name="baseline-environment-on-azure-terraform_tf"
 export TF_VAR_github_environment="tf"
 
-# Deploy infrastructure
-make deploy SCENARIO=$SCENARIO
+# Initialize the Terraform configuration.
+terraform init
 
-# Get output variables
-cd scenarios/$SCENARIO
-application_object_id=$(terraform output -raw application_object_id)
+# Deploy the infrastructure
+terraform apply -auto-approve
 
 # Grant permissions to the application
+application_object_id=$(terraform output -raw application_object_id)
 az ad app permission admin-consent --id $application_object_id
+
+# Destroy the infrastructure
+terraform destroy -auto-approve
 ```
 
-## API Permissions
+## Azure CLI
+
+If you want to create a service principal using Azure CLI, you can refer to the [create-service-principal.sh](../../../scripts/create-service-principal.sh) script.
+
+## References
+
+### API Permissions
 
 - [azuread_application](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application#api-permissions)
 - [azuread_service_principal](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal#api-permissions)

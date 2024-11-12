@@ -13,7 +13,7 @@ variable "organization" {
 variable "repository_name" {
   description = "Specifies the name of the GitHub repository"
   type        = string
-  default     = "example-repository"
+  default     = "baseline-environment-on-azure-terraform"
 }
 
 variable "repository_description" {
