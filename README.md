@@ -16,8 +16,8 @@ Baseline Environment on Azure in Terraform is a set of reference Terraform templ
 
 For development:
 
-- [tflint](https://github.com/terraform-linters/tflint)
-- [tfsec](https://github.com/aquasecurity/tfsec)
+- [TFlint](https://github.com/terraform-linters/tflint)
+- [Trivy](https://github.com/aquasecurity/trivy)
 
 ## Usage
 

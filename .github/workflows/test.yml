@@ -34,14 +34,14 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ matrix.terraform-version }}
-      - uses: terraform-linters/setup-tflint@v3
-        name: Setup TFLint
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
         with:
-          tflint_version: v0.44.1
-      - name: tfsec
-        uses: aquasecurity/tfsec-action@v1.0.0
+          tflint_version: v0.52.0
+      - name: Install Trivy
+        uses: aquasecurity/setup-trivy@v0.2.2
         with:
-          version: latest
+          version: v0.57.0
       - name: Run CI test
         run: |
           cd infra

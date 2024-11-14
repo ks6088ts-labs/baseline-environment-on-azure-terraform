@@ -34,7 +34,7 @@ install-deps-dev: ## install dependencies for development
 	@which az || echo "Please install Azure CLI: https://docs.microsoft.com/cli/azure/install-azure-cli"
 	@which gh || echo "Please install GitHub CLI: https://cli.github.com/"
 	@which tflint || echo "Please install tflint: https://github.com/terraform-linters/tflint#installation"
-	@which tfsec || echo "Please install tfsec: https://aquasecurity.github.io/tfsec/v1.4.2/getting-started/installation/"
+	@which trivy || echo "Please install Trivy: https://aquasecurity.github.io/trivy/v0.57/getting-started/installation/"
 
 .PHONY: clean
 clean:
@@ -59,13 +59,13 @@ tflint:
 		echo "tflint is not installed. Skipping..."; \
 	fi
 
-.PHONY: tfsec
-tfsec:
-	@if [ -x "$(shell command -v tfsec)" ]; then \
-		echo "Running tfsec..."; \
-		tfsec .; \
+.PHONY: trivy
+trivy:
+	@if [ -x "$(shell command -v trivy)" ]; then \
+		echo "Running trivy..."; \
+		trivy config .; \
 	else \
-		echo "tfsec is not installed. Skipping..."; \
+		echo "trivy is not installed. Skipping..."; \
 	fi
 
 .PHONY: format
@@ -84,7 +84,7 @@ test: init ## test codes
 _ci-test-base: install-deps-dev clean init lint test plan
 
 .PHONY: ci-test
-ci-test: tflint tfsec ## ci test
+ci-test: tflint trivy ## ci test
 	@for dir in $(SCENARIO_DIR_LIST) ; do \
 		echo "Test: $$dir" ; \
 		make _ci-test-base SCENARIO=$$(basename $$dir) || exit 1 ; \
