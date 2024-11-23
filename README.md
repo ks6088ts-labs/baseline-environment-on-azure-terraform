@@ -118,6 +118,25 @@ EOF
 # Do something like `terraform init`, `terraform apply`, etc.
 ```
 
+To prevent shared key authorization for an Azure Storage account, you refer to [Prevent Shared Key authorization for an Azure Storage account](https://learn.microsoft.com/en-us/azure/storage/common/shared-key-authorization-prevent?tabs=azure-cli).
+
+```shell
+STORAGE_ACCOUNT_NAME="<YOUR_STORAGE_ACCOUNT_NAME>"
+RESOURCE_GROUP_NAME="<YOUR_RESOURCE_GROUP_NAME>"
+
+# Disable Shared Key authorization
+az storage account update \
+    --name $STORAGE_ACCOUNT_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --allow-shared-key-access false
+
+# Verify that Shared Key access is not allowed
+az storage account show \
+    --name $STORAGE_ACCOUNT_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --query "allowSharedKeyAccess"
+```
+
 ## Development
 
 ### Run local tests
