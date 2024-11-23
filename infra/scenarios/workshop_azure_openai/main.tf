@@ -59,3 +59,11 @@ module "bing_search" {
   sku_name          = "S1"
   tags              = var.tags
 }
+
+module "cosmosdb" {
+  source              = "../../modules/cosmosdb"
+  name                = "cosmosdb${var.name}${module.random.random_string}"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  tags                = var.tags
+}
