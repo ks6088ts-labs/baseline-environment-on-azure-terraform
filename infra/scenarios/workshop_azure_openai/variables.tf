@@ -27,7 +27,8 @@ variable "deployments" {
       version = string
     })
     sku = object({
-      name = string
+      name     = string
+      capacity = number
     })
   }))
   default = [
@@ -38,7 +39,8 @@ variable "deployments" {
         version = "2024-05-13"
       }
       sku = {
-        name = "GlobalStandard"
+        name     = "GlobalStandard"
+        capacity = 450
       },
     },
     {
@@ -48,7 +50,8 @@ variable "deployments" {
         version = "1"
       }
       sku = {
-        name = "Standard"
+        name     = "Standard"
+        capacity = 350
       },
     },
   ]

@@ -39,7 +39,8 @@ variable "deployments" {
       version = string
     })
     sku = object({
-      name = string
+      name     = string
+      capacity = number
     })
   }))
   default = []

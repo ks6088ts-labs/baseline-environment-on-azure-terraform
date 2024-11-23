@@ -41,6 +41,7 @@ resource "azurerm_cognitive_deployment" "deployment" {
   }
 
   sku {
-    name = each.value.sku.name
+    name     = each.value.sku.name
+    capacity = each.value.sku.capacity
   }
 }

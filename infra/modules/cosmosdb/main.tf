@@ -9,13 +9,14 @@ terraform {
 }
 
 resource "azurerm_cosmosdb_account" "cosmosdb_account" {
-  name                       = "${var.name}cosmosdb"
-  location                   = var.location
-  tags                       = var.tags
-  resource_group_name        = var.resource_group_name
-  offer_type                 = "Standard"
-  kind                       = "GlobalDocumentDB"
-  automatic_failover_enabled = false
+  name                          = "${var.name}cosmosdb"
+  location                      = var.location
+  tags                          = var.tags
+  resource_group_name           = var.resource_group_name
+  offer_type                    = "Standard"
+  kind                          = "GlobalDocumentDB"
+  automatic_failover_enabled    = false
+  local_authentication_disabled = false
 
   geo_location {
     location          = var.location
