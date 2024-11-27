@@ -36,25 +36,12 @@ resource "azuread_application" "application" {
   ]
   required_resource_access {
     resource_app_id = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
-    resource_access {
-      id   = data.azuread_service_principal.msgraph.app_role_ids["Domain.Read.All"]
-      type = "Role"
-    }
-    resource_access {
-      id   = data.azuread_service_principal.msgraph.app_role_ids["Group.ReadWrite.All"]
-      type = "Role"
-    }
-    resource_access {
-      id   = data.azuread_service_principal.msgraph.app_role_ids["GroupMember.ReadWrite.All"]
-      type = "Role"
-    }
-    resource_access {
-      id   = data.azuread_service_principal.msgraph.app_role_ids["User.ReadWrite.All"]
-      type = "Role"
-    }
-    resource_access {
-      id   = data.azuread_service_principal.msgraph.app_role_ids["Application.ReadWrite.All"]
-      type = "Role"
+    dynamic "resource_access" {
+      for_each = var.resource_access_permissions
+      content {
+        id   = data.azuread_service_principal.msgraph.app_role_ids[resource_access.value.resource_access_permission_name]
+        type = resource_access.value.type
+      }
     }
   }
 }

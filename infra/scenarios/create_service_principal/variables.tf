@@ -27,3 +27,33 @@ variable "github_environment" {
   type        = string
   default     = "ci"
 }
+
+variable "resource_access_permissions" {
+  description = "Specifies the resource access permissions"
+  type = list(object({
+    resource_access_permission_name = string
+    type                            = string
+  }))
+  default = [
+    {
+      resource_access_permission_name = "Domain.Read.All"
+      type                            = "Role"
+    },
+    {
+      resource_access_permission_name = "Group.ReadWrite.All"
+      type                            = "Role"
+    },
+    {
+      resource_access_permission_name = "GroupMember.ReadWrite.All"
+      type                            = "Role"
+    },
+    {
+      resource_access_permission_name = "User.ReadWrite.All"
+      type                            = "Role"
+    },
+    {
+      resource_access_permission_name = "Application.ReadWrite.All"
+      type                            = "Role"
+    },
+  ]
+}
