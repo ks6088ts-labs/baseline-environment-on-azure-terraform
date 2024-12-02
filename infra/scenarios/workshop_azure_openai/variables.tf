@@ -36,7 +36,7 @@ variable "deployments" {
       name = "gpt-4o"
       model = {
         name    = "gpt-4o"
-        version = "2024-05-13"
+        version = "2024-08-06"
       }
       sku = {
         name     = "GlobalStandard"
@@ -44,9 +44,31 @@ variable "deployments" {
       },
     },
     {
+      name = "gpt-4o-mini"
+      model = {
+        name    = "gpt-4o-mini"
+        version = "2024-07-18"
+      }
+      sku = {
+        name     = "GlobalStandard"
+        capacity = 2000
+      },
+    },
+    {
       name = "text-embedding-3-small"
       model = {
         name    = "text-embedding-3-small"
+        version = "1"
+      }
+      sku = {
+        name     = "Standard"
+        capacity = 350
+      },
+    },
+    {
+      name = "text-embedding-3-large"
+      model = {
+        name    = "text-embedding-3-large"
         version = "1"
       }
       sku = {
