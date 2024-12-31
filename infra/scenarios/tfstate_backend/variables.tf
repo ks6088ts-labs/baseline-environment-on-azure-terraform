@@ -7,7 +7,7 @@ variable "name" {
 variable "location" {
   description = "Specifies the location"
   type        = string
-  default     = "japaneast"
+  default     = "eastus"
 }
 
 variable "tags" {
