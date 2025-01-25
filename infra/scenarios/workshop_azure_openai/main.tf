@@ -69,3 +69,13 @@ module "cosmosdb" {
   resource_group_name = module.resource_group.name
   tags                = var.tags
 }
+
+module "aks" {
+  count = var.create_aks ? 1 : 0
+
+  source              = "../../modules/aks"
+  name                = "aks${var.name}${module.random.random_string}"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  tags                = var.tags
+}

@@ -7,7 +7,7 @@ variable "name" {
 variable "location" {
   description = "Specifies the location"
   type        = string
-  default     = "eastus"
+  default     = "japaneast"
 }
 
 variable "tags" {
@@ -36,7 +36,7 @@ variable "deployments" {
       name = "gpt-4o"
       model = {
         name    = "gpt-4o"
-        version = "2024-11-20"
+        version = "2024-08-06"
       }
       sku = {
         name     = "GlobalStandard"
@@ -81,6 +81,12 @@ variable "deployments" {
 
 variable "create_cosmosdb" {
   description = "Specifies whether to create a CosmosDB account"
+  type        = bool
+  default     = false
+}
+
+variable "create_aks" {
+  description = "Specifies whether to create an Azure Kubernetes Service"
   type        = bool
   default     = false
 }
