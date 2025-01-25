@@ -16,6 +16,9 @@ az ad signed-in-user show
 
 # Set environment variables
 export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+export TF_VAR_create_aks="true"
+
+# make deploy SCENARIO=workshop_azure_openai
 
 # Initialize the Terraform configuration.
 terraform init
@@ -25,6 +28,20 @@ terraform apply -auto-approve
 
 # Destroy the infrastructure
 terraform destroy -auto-approve
+```
+
+## Configure AKS cluster
+
+```shell
+# Set variables
+RESOURCE_GROUP_NAME="YOUR_RESOURCE_GROUP_NAME"
+CLUSTER_NAME="YOUR_CLUSTER_NAME"
+
+# Get the credentials for the AKS cluster
+az aks get-credentials \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --name $CLUSTER_NAME \
+  --verbose
 ```
 
 ## References
