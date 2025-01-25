@@ -36,7 +36,7 @@ variable "deployments" {
       name = "gpt-4o"
       model = {
         name    = "gpt-4o"
-        version = "2024-08-06"
+        version = "2024-11-20"
       }
       sku = {
         name     = "GlobalStandard"
@@ -77,4 +77,10 @@ variable "deployments" {
       },
     },
   ]
+}
+
+variable "create_cosmosdb" {
+  description = "Specifies whether to create a CosmosDB account"
+  type        = bool
+  default     = false
 }

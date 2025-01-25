@@ -61,6 +61,8 @@ module "bing_search" {
 }
 
 module "cosmosdb" {
+  count = var.create_cosmosdb ? 1 : 0
+
   source              = "../../modules/cosmosdb"
   name                = "cosmosdb${var.name}${module.random.random_string}"
   location            = var.location
