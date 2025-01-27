@@ -4,6 +4,6 @@ output "resource_group_name" {
 }
 
 output "aks_cluster_name" {
-  value       = module.aks[0].name
+  value       = length(module.aks) > 0 ? module.aks[0].name : ""
   description = "created Azure Kubernetes Service name"
 }
