@@ -12,6 +12,7 @@ resource "azurerm_container_app_environment" "container_app_environment" {
   name                = "${var.name}cae"
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
 }
 
 resource "azurerm_container_app" "container_app" {
@@ -19,6 +20,7 @@ resource "azurerm_container_app" "container_app" {
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
   resource_group_name          = var.resource_group_name
   revision_mode                = "Single"
+  tags                         = var.tags
 
   template {
     container {
