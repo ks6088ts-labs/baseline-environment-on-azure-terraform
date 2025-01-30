@@ -5,6 +5,9 @@ This is a scenario for describing how to create resources for [Workshop for Azur
 ## How to use
 
 ```shell
+# (Optional) Use task runner
+# cd infra; make deploy SCENARIO=workshop_azure_openai
+
 # Move to the scenario directory
 cd infra/scenarios/workshop_azure_openai
 
@@ -16,9 +19,9 @@ az ad signed-in-user show
 
 # Set environment variables
 export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
-export TF_VAR_create_aks="true"
 
-# make deploy SCENARIO=workshop_azure_openai
+# Set the feature flag to create resources
+# export TF_VAR_create_container_app="true"
 
 # Initialize the Terraform configuration.
 terraform init
