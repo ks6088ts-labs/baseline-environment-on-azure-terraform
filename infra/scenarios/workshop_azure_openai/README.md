@@ -47,6 +47,10 @@ az aks get-credentials \
   --verbose
 ```
 
+## Supported use cases
+
+- [Deploy container apps](../../../docs/recipes/deploy_container_apps.md)
+
 ## References
 
 - [Azure/terraform-azurerm-avm-res-cognitiveservices-account](https://github.com/Azure/terraform-azurerm-avm-res-cognitiveservices-account)
