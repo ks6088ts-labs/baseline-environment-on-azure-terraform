@@ -47,17 +47,32 @@ module "ai_services" {
   resource_group_name   = module.resource_group.name
   sku_name              = "S0"
   tags                  = var.tags
-  deployments           = var.deployments
+  deployments           = var.ai_services_deployments
   custom_subdomain_name = local.ai_services_name
 }
 
 module "bing_search" {
+  count = var.create_bing_search ? 1 : 0
+
   source            = "../../modules/bing_search"
   name              = "bing${var.name}${module.random.random_string}"
   location          = "global"
   resource_group_id = module.resource_group.id
   sku_name          = "S1"
   tags              = var.tags
+}
+
+module "container_app" {
+  count = var.create_container_app ? 1 : 0
+
+  source              = "../../modules/container_app"
+  name                = var.name
+  location            = var.location
+  tags                = var.tags
+  image               = var.container_app_image
+  resource_group_name = module.resource_group.name
+  ingress_target_port = var.container_app_ingress_target_port
+  envs                = var.container_app_envs
 }
 
 module "cosmosdb" {

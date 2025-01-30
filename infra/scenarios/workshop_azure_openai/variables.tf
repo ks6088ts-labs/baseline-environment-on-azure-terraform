@@ -1,3 +1,6 @@
+# ---
+# Common variables
+# ---
 variable "name" {
   description = "Specifies the name"
   type        = string
@@ -18,7 +21,37 @@ variable "tags" {
   }
 }
 
-variable "deployments" {
+# ---
+# Feature flags
+# ---
+variable "create_bing_search" {
+  description = "Specifies whether to create a Bing Search resource"
+  type        = bool
+  default     = false
+}
+
+variable "create_container_app" {
+  description = "Specifies whether to create a container app"
+  type        = bool
+  default     = false
+}
+
+variable "create_cosmosdb" {
+  description = "Specifies whether to create a CosmosDB account"
+  type        = bool
+  default     = false
+}
+
+variable "create_aks" {
+  description = "Specifies whether to create an Azure Kubernetes Service"
+  type        = bool
+  default     = false
+}
+
+# ---
+# Module: ai_services
+# ---
+variable "ai_services_deployments" {
   description = "Specifies the deployments of the Azure OpenAI Service"
   type = list(object({
     name = string
@@ -79,14 +112,26 @@ variable "deployments" {
   ]
 }
 
-variable "create_cosmosdb" {
-  description = "Specifies whether to create a CosmosDB account"
-  type        = bool
-  default     = false
+# ---
+# Module: container_app
+# ---
+variable "container_app_image" {
+  description = "Specifies the container image"
+  type        = string
+  default     = "nginx:latest"
 }
 
-variable "create_aks" {
-  description = "Specifies whether to create an Azure Kubernetes Service"
-  type        = bool
-  default     = false
+variable "container_app_ingress_target_port" {
+  description = "Specifies the target port of the ingress"
+  type        = number
+  default     = 80
+}
+
+variable "container_app_envs" {
+  description = "Specifies the environment variables"
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
 }
