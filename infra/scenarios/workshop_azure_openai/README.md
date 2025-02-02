@@ -37,8 +37,8 @@ terraform destroy -auto-approve
 
 ```shell
 # Set variables
-RESOURCE_GROUP_NAME="YOUR_RESOURCE_GROUP_NAME"
-CLUSTER_NAME="YOUR_CLUSTER_NAME"
+RESOURCE_GROUP_NAME=$(terraform output -raw resource_group_name)
+CLUSTER_NAME=$(terraform output -raw aks_cluster_name)
 
 # Get the credentials for the AKS cluster
 az aks get-credentials \
