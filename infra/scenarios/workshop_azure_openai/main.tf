@@ -14,6 +14,12 @@ terraform {
       version = "~> 4.5.0"
     }
   }
+  cloud {
+    organization = "ks6088ts"
+    workspaces {
+      name = "workshop_azure_openai"
+    }
+  }
 }
 
 provider "azurerm" {
