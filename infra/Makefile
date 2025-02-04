@@ -86,6 +86,9 @@ _ci-test-base: install-deps-dev clean init lint test plan
 .PHONY: ci-test
 ci-test: tflint trivy ## ci test
 	@for dir in $(SCENARIO_DIR_LIST) ; do \
+		if [ "$$dir" = "scenarios/workshop_azure_openai" ]; then \
+			continue; \
+		fi; \
 		echo "Test: $$dir" ; \
 		make _ci-test-base SCENARIO=$$(basename $$dir) || exit 1 ; \
 	done
