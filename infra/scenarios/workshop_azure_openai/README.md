@@ -36,6 +36,10 @@ terraform destroy -auto-approve
 ## Configure AKS cluster
 
 ```shell
+# Set the feature flag to create AKS cluster
+export TF_VAR_create_aks="true"
+terraform apply -auto-approve
+
 # Set variables
 RESOURCE_GROUP_NAME=$(terraform output -raw resource_group_name)
 CLUSTER_NAME=$(terraform output -raw aks_cluster_name)
