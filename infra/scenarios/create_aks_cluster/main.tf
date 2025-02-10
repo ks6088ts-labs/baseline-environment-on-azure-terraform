@@ -33,10 +33,6 @@ provider "helm" {
   }
 }
 
-locals {
-  ai_services_name = "aoai${var.name}${module.random.random_string}"
-}
-
 module "random" {
   source = "../../modules/random"
 
