@@ -121,3 +121,14 @@ resource "helm_release" "open_webui" {
   version          = "5.10.0"
   repository       = "https://open-webui.github.io/helm-charts"
 }
+
+resource "helm_release" "kubecost" {
+  count = var.create_kubecost ? 1 : 0
+
+  create_namespace = true
+  name             = "kubecost"
+  chart            = "cost-analyzer"
+  namespace        = "kubecost"
+  version          = "2.6.2"
+  repository       = "https://kubecost.github.io/cost-analyzer"
+}
