@@ -55,6 +55,7 @@ module "aks" {
   location            = var.location
   resource_group_name = module.resource_group.name
   tags                = var.tags
+  node_count          = var.aks_node_count
 }
 
 resource "helm_release" "ingress_nginx" {

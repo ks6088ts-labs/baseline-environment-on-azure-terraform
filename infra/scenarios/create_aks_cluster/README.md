@@ -30,6 +30,15 @@ terraform apply -auto-approve
 terraform destroy -auto-approve
 ```
 
+Customize the `terraform.tfvars` file to override the default values.
+
+```shell
+cat <<EOF > terraform.tfvars
+create_ingress_nginx = true
+create_kubecost = true
+EOF
+```
+
 ## Configure AKS cluster
 
 ```shell

@@ -22,6 +22,15 @@ variable "tags" {
 }
 
 # ---
+# aks module variables
+# ---
+variable "aks_node_count" {
+  description = "Specifies the number of nodes in the AKS cluster"
+  type        = number
+  default     = 2
+}
+
+# ---
 # Feature flags
 # ---
 variable "create_ingress_nginx" {
