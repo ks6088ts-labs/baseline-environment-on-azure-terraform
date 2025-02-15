@@ -51,5 +51,11 @@ variable "create_argo_workflows" {
 variable "create_open_webui" {
   description = "Specifies whether to create Open WebUI"
   type        = bool
-  default     = true
+  default     = false
+}
+
+variable "create_kubecost" {
+  description = "Specifies whether to create Kubecost"
+  type        = bool
+  default     = false
 }
