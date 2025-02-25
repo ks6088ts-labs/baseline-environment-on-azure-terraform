@@ -44,8 +44,8 @@ test                           test codes
 | [create_aks_cluster](./infra/scenarios/create_aks_cluster/README.md)             | Create AKS Cluster                                                                                             |
 | [create_policies](./infra/scenarios/create_policies/README.md)                   | Create Azure Policy definitions and assignments                                                                |
 | [create_policies](./infra/scenarios/create_policies/README.md)                   | Create Azure Policy definitions and assignments                                                                |
-| [create_resource_group](./infra/scenarios/create_resource_group/README.md)       | Create a new resource group in Azure                                                                           |
 | [create_user_group](./infra/scenarios/create_user_group/README.md)               | Create a new user and group in Microsoft Entra ID                                                              |
+| [playgrounds](./infra/scenarios/playgrounds/README.md)                           | Create playgrounds for testing and experimenting with Terraform.                                               |
 | [tfstate_backend](./infra/scenarios/tfstate_backend/README.md)                   | Create Terraform state backend on Azure Storage                                                                |
 | [workshop_azure_openai](./infra/scenarios/workshop_azure_openai/README.md)       | Workshop for Azure OpenAI Service                                                                              |
 

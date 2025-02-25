@@ -1,12 +1,12 @@
-# Create resource group
+# Playgrounds
 
-This is a scenario for creating an Azure resource group using Terraform.
+This is a scenario for creating playgrounds for testing and experimenting with Terraform.
 
 ## How to use
 
 ```shell
 # Move to the scenario directory
-cd infra/scenarios/create_resource_group
+cd infra/scenarios/playgrounds
 
 # Log in to Azure
 az login
@@ -27,7 +27,7 @@ terraform apply -auto-approve
 terraform destroy -auto-approve
 ```
 
-### To use Azure Storage for state management
+## Use Azure Storage as the backend
 
 Create a file named `backend.tf` with the following content. See [Example Backend Configurations](https://developer.hashicorp.com/terraform/language/backend/azurerm#example-backend-configurations) for more details.
 

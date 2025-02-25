@@ -1,7 +1,7 @@
 variable "name" {
   description = "Specifies the name"
   type        = string
-  default     = "createresourcegroup"
+  default     = "playgrounds"
 }
 
 variable "location" {
@@ -14,6 +14,6 @@ variable "tags" {
   description = "Specifies the tags"
   type        = map(any)
   default = {
-    scenario = "create_resource_group"
+    scenario = "playgrounds"
   }
 }
