@@ -27,7 +27,7 @@ variable "tags" {
 variable "aks_node_count" {
   description = "Specifies the number of nodes in the AKS cluster"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 # ---
