@@ -8,16 +8,9 @@ terraform {
   }
 }
 
-resource "azurerm_container_app_environment" "container_app_environment" {
-  name                = "${var.name}cae"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
-}
-
 resource "azurerm_container_app" "container_app" {
   name                         = "${var.name}ca"
-  container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
+  container_app_environment_id = var.container_app_environment_id
   resource_group_name          = var.resource_group_name
   revision_mode                = "Single"
   tags                         = var.tags

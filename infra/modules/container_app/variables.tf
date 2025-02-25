@@ -3,11 +3,6 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "location" {
-  description = "Specifies the location of Azure Container Apps"
-  type        = string
-}
-
 variable "name" {
   description = "Specifies the name of the Azure Container Apps"
   type        = string
@@ -38,4 +33,9 @@ variable "envs" {
     value = string
   }))
   default = []
+}
+
+variable "container_app_environment_id" {
+  description = "Specifies the container app environment id"
+  type        = string
 }
