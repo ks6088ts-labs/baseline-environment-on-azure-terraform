@@ -13,8 +13,3 @@ output "ai_services_primary_access_key" {
   description = "Specifies the primary access key of the Azure AI Service."
   sensitive   = true
 }
-
-output "aks_cluster_name" {
-  value       = length(module.aks) > 0 ? module.aks[0].name : ""
-  description = "created Azure Kubernetes Service name"
-}

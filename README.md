@@ -41,7 +41,7 @@ test                           test codes
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | [configure_github_secrets](./infra/scenarios/configure_github_secrets/README.md) | Configure GitHub secrets ( CLI version: [configure-github-secrets.sh](./scripts/configure-github-secrets.sh) ) |
 | [create_policies](./infra/scenarios/create_policies/README.md)                   | Create Azure Policy definitions and assignments                                                                |
-| [create_policies](./infra/scenarios/create_policies/README.md)                   | Create Azure Policy definitions and assignments                                                                |
+| [create_service_principal](./infra/scenarios/create_service_principal/README.md) | Creating a service principal in Microsoft Entra ID.                                                            |
 | [create_user_group](./infra/scenarios/create_user_group/README.md)               | Create a new user and group in Microsoft Entra ID                                                              |
 | [playgrounds](./infra/scenarios/playgrounds/README.md)                           | Create playgrounds for testing and experimenting with Terraform.                                               |
 | [tfstate_backend](./infra/scenarios/tfstate_backend/README.md)                   | Create Terraform state backend on Azure Storage                                                                |
