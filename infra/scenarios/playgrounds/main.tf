@@ -5,11 +5,24 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.5.0"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "3.0.0-pre1"
+    }
   }
 }
 
 provider "azurerm" {
   features {}
+}
+
+provider "helm" {
+  kubernetes = {
+    host                   = module.aks.host
+    client_certificate     = base64decode(module.aks.client_certificate)
+    client_key             = base64decode(module.aks.client_key)
+    cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
+  }
 }
 
 locals {
@@ -42,5 +55,18 @@ module "ai_services" {
   sku_name              = "S0"
   tags                  = var.tags
   deployments           = each.value.deployments
-  custom_subdomain_name = local.ai_services_name
+  custom_subdomain_name = "${local.ai_services_name}${each.value.location}"
+}
+
+module "aks" {
+  source              = "../../modules/aks"
+  name                = "aks${var.name}${module.random.random_string}"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  tags                = var.tags
+  node_count          = var.aks_node_count
+
+  create_ingress_nginx         = true
+  create_argo_cd               = true
+  create_kube_prometheus_stack = true
 }

@@ -42,12 +42,6 @@ variable "create_cosmosdb" {
   default     = false
 }
 
-variable "create_aks" {
-  description = "Specifies whether to create an Azure Kubernetes Service"
-  type        = bool
-  default     = false
-}
-
 # ---
 # Module: ai_services
 # ---

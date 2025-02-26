@@ -33,24 +33,6 @@ terraform apply -auto-approve
 terraform destroy -auto-approve
 ```
 
-## Configure AKS cluster
-
-```shell
-# Set the feature flag to create AKS cluster
-export TF_VAR_create_aks="true"
-terraform apply -auto-approve
-
-# Set variables
-RESOURCE_GROUP_NAME=$(terraform output -raw resource_group_name)
-CLUSTER_NAME=$(terraform output -raw aks_cluster_name)
-
-# Get the credentials for the AKS cluster
-az aks get-credentials \
-  --resource-group $RESOURCE_GROUP_NAME \
-  --name $CLUSTER_NAME \
-  --verbose
-```
-
 ## Supported use cases
 
 - [Deploy container apps](../../../docs/recipes/deploy_container_apps.md)

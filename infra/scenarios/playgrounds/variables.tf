@@ -1,7 +1,7 @@
 variable "name" {
   description = "Specifies the name"
   type        = string
-  default     = "createaiservices"
+  default     = "playgrounds"
 }
 
 variable "location" {
@@ -14,7 +14,7 @@ variable "tags" {
   description = "Specifies the tags"
   type        = map(any)
   default = {
-    scenario = "create_ai_services"
+    scenario = "playgrounds"
   }
 }
 
@@ -51,4 +51,13 @@ variable "ai_services_deployments" {
       deployments = []
     },
   ]
+}
+
+# ---
+# Module: aks
+# ---
+variable "aks_node_count" {
+  description = "Specifies the number of nodes in the AKS cluster"
+  type        = number
+  default     = 1
 }
