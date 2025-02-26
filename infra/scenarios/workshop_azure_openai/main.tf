@@ -13,11 +13,24 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.5.0"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "3.0.0-pre1"
+    }
   }
 }
 
 provider "azurerm" {
   features {}
+}
+
+provider "helm" {
+  kubernetes = {
+    host                   = module.aks[0].host
+    client_certificate     = base64decode(module.aks[0].client_certificate)
+    client_key             = base64decode(module.aks[0].client_key)
+    cluster_ca_certificate = base64decode(module.aks[0].cluster_ca_certificate)
+  }
 }
 
 locals {

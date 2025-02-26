@@ -52,3 +52,12 @@ variable "ai_services_deployments" {
     },
   ]
 }
+
+# ---
+# Module: aks
+# ---
+variable "aks_node_count" {
+  description = "Specifies the number of nodes in the AKS cluster"
+  type        = number
+  default     = 1
+}

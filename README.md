@@ -40,7 +40,6 @@ test                           test codes
 | Scenario                                                                         | Overview                                                                                                       |
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | [configure_github_secrets](./infra/scenarios/configure_github_secrets/README.md) | Configure GitHub secrets ( CLI version: [configure-github-secrets.sh](./scripts/configure-github-secrets.sh) ) |
-| [create_aks_cluster](./infra/scenarios/create_aks_cluster/README.md)             | Create AKS Cluster                                                                                             |
 | [create_policies](./infra/scenarios/create_policies/README.md)                   | Create Azure Policy definitions and assignments                                                                |
 | [create_policies](./infra/scenarios/create_policies/README.md)                   | Create Azure Policy definitions and assignments                                                                |
 | [create_user_group](./infra/scenarios/create_user_group/README.md)               | Create a new user and group in Microsoft Entra ID                                                              |

@@ -54,7 +54,58 @@ cp terraform.tfvars.example terraform.tfvars
 terraform apply -auto-approve
 ```
 
+## Configure AKS cluster
+
+```shell
+# Set variables
+RESOURCE_GROUP_NAME=$(terraform output -raw resource_group_name)
+CLUSTER_NAME=$(terraform output -raw aks_cluster_name)
+
+# Get the credentials for the AKS cluster
+az aks get-credentials \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --name $CLUSTER_NAME \
+  --verbose
+
+# Port forward to a service
+k -n argo-cd port-forward service/argo-cd-argocd-server 8080:443
+k -n kube-prometheus-stack port-forward service/kube-prometheus-stack-grafana 8080:80
+
+# Create ingress resource for Grafana
+k -n kube-prometheus-stack apply -f - <<EOF
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: kube-prometheus-stack-grafana
+                port:
+                  number: 80
+EOF
+
+# Delete ingress resource for Grafana
+k -n kube-prometheus-stack delete ingress test-ingress
+```
+
 ## References
 
+**Terraform**
+
 - [Store Terraform state in Azure Storage](https://learn.microsoft.com/azure/developer/terraform/store-state-in-azure-storage?tabs=terraform)
+
+**Azure OpenAI Service**
+
 - [Azure OpenAI Service models](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions)
+
+**AKS**
+
+- [Installing kro on AKS with Terraform](https://carlos.mendible.com/2025/02/09/installing-kro-on-aks-with-terraform/)
+- [ks6088ts-labs/workshop-kubernetes](https://github.com/ks6088ts-labs/workshop-kubernetes)
