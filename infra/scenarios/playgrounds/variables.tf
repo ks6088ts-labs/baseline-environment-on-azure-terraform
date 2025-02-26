@@ -17,3 +17,38 @@ variable "tags" {
     scenario = "playgrounds"
   }
 }
+
+# ---
+# Module: ai_services
+# ---
+variable "ai_services_deployments" {
+  description = "List of configurations for the Azure AI Services deployments"
+  type = list(object({
+    location = string
+    deployments = list(object({
+      name = string
+      model = object({
+        name    = string
+        version = string
+      })
+      sku = object({
+        name     = string
+        capacity = number
+      })
+    }))
+  }))
+  default = [
+    {
+      location    = "japaneast"
+      deployments = []
+    },
+    {
+      location    = "eastus"
+      deployments = []
+    },
+    {
+      location    = "eastus2"
+      deployments = []
+    },
+  ]
+}

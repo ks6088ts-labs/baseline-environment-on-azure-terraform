@@ -1,3 +1,6 @@
+# ---
+# Module: ai_services
+# ---
 ai_services_deployments = [
   {
     location = "japaneast"

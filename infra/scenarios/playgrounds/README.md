@@ -46,6 +46,15 @@ terraform init \
   -backend-config="key=createresourcegroup.terraform.tfstate"
 ```
 
+## Overwrite variables
+
+```shell
+cp terraform.tfvars.example terraform.tfvars
+
+terraform apply -auto-approve
+```
+
 ## References
 
 - [Store Terraform state in Azure Storage](https://learn.microsoft.com/azure/developer/terraform/store-state-in-azure-storage?tabs=terraform)
+- [Azure OpenAI Service models](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions)
