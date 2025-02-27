@@ -161,3 +161,13 @@ ai_services_deployments = [
     ]
   },
 ]
+
+# ---
+# Module: container_app
+# ---
+container_app_envs = [
+  {
+    name  = "NAME"
+    value = "VALUE"
+  },
+]

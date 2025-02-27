@@ -70,3 +70,22 @@ module "aks" {
   create_argo_cd               = true
   create_kube_prometheus_stack = true
 }
+
+module "container_app_environment" {
+  source              = "../../modules/container_app_environment"
+  name                = var.name
+  location            = var.location
+  tags                = var.tags
+  resource_group_name = module.resource_group.name
+}
+
+module "container_app" {
+  source                       = "../../modules/container_app"
+  name                         = var.name
+  tags                         = var.tags
+  image                        = var.container_app_image
+  resource_group_name          = module.resource_group.name
+  ingress_target_port          = var.container_app_ingress_target_port
+  envs                         = var.container_app_envs
+  container_app_environment_id = module.container_app_environment.id
+}
