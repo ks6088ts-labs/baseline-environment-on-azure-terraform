@@ -61,3 +61,27 @@ variable "aks_node_count" {
   type        = number
   default     = 1
 }
+
+# ---
+# Module: container_app
+# ---
+variable "container_app_image" {
+  description = "Specifies the container image"
+  type        = string
+  default     = "ks6088ts/gates-backend:0.0.2"
+}
+
+variable "container_app_ingress_target_port" {
+  description = "Specifies the target port of the ingress"
+  type        = number
+  default     = 8080
+}
+
+variable "container_app_envs" {
+  description = "Specifies the environment variables"
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
+}
