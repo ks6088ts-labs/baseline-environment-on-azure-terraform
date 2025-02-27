@@ -167,7 +167,43 @@ ai_services_deployments = [
 # ---
 container_app_envs = [
   {
-    name  = "NAME"
-    value = "VALUE"
+    name  = "CORE_VERSION"
+    value = "0.0.2"
+  },
+  {
+    name  = "CORE_LOG_LEVEL"
+    value = "WARNING"
+  },
+  {
+    name  = "AI_AZURE_OPENAI_ENDPOINT"
+    value = "https://FIXME.openai.azure.com/"
+  },
+  {
+    name  = "AI_AZURE_OPENAI_API_KEY"
+    value = "FIXME"
+  },
+  {
+    name  = "AI_AZURE_OPENAI_API_VERSION"
+    value = "2024-10-21"
+  },
+  {
+    name  = "AI_AZURE_OPENAI_MODEL_CHAT"
+    value = "gpt-4o"
+  },
+  {
+    name  = "AI_AZURE_OPENAI_MODEL_EMBEDDING"
+    value = "text-embedding-3-large"
+  },
+  {
+    name  = "STORAGE_BLOB_STORAGE_ACCOUNT_NAME"
+    value = "FIXME"
+  },
+  {
+    name  = "STORAGE_BLOB_STORAGE_CONTAINER_NAME"
+    value = "dev"
+  },
+  {
+    name  = "STORAGE_BLOB_STORAGE_SAS_TOKEN"
+    value = "sp=racwdli&st=2024-10-17T23:32:36Z&se=2024-10-18T07:32:36Z&spr=https&sv=2022-11-02&sr=c&sig=FIXME"
   },
 ]

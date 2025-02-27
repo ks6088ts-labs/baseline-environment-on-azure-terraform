@@ -68,7 +68,7 @@ variable "aks_node_count" {
 variable "container_app_image" {
   description = "Specifies the container image"
   type        = string
-  default     = "ks6088ts/gates-backend:latest"
+  default     = "ks6088ts/gates-backend:0.0.2"
 }
 
 variable "container_app_ingress_target_port" {
