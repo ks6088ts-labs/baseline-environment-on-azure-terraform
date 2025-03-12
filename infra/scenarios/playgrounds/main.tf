@@ -108,6 +108,15 @@ module "storage_account" {
   resource_group_name = module.resource_group.name
 }
 
+module "container_registry" {
+  source = "../../modules/container_registry"
+
+  name                = "${var.name}acr${module.random.random_string}"
+  location            = var.location
+  tags                = var.tags
+  resource_group_name = module.resource_group.name
+}
+
 resource "azurerm_ai_foundry" "ai_foundry" {
   name                = "${var.name}aifoundry${module.random.random_string}"
   location            = var.location
