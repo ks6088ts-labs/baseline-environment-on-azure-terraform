@@ -158,6 +158,28 @@ ai_services_deployments = [
           capacity = 500
         },
       },
+      {
+        name = "o1"
+        model = {
+          name    = "o1"
+          version = "2024-12-17"
+        }
+        sku = {
+          name     = "GlobalStandard"
+          capacity = 500
+        },
+      },
+      {
+        name = "o3-mini"
+        model = {
+          name    = "o3-mini"
+          version = "2025-01-31"
+        }
+        sku = {
+          name     = "GlobalStandard"
+          capacity = 500
+        },
+      },
     ]
   },
 ]
