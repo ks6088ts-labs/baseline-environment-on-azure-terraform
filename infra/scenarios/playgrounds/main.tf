@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.5.0"
+      version = "~> 4.22.0"
     }
     helm = {
       source  = "hashicorp/helm"
@@ -66,9 +66,9 @@ module "aks" {
   tags                = var.tags
   node_count          = var.aks_node_count
 
-  create_ingress_nginx         = true
-  create_argo_cd               = true
-  create_kube_prometheus_stack = true
+  # create_ingress_nginx         = true
+  # create_argo_cd               = true
+  # create_kube_prometheus_stack = true
 }
 
 module "container_app_environment" {
@@ -88,4 +88,46 @@ module "container_app" {
   ingress_target_port          = var.container_app_ingress_target_port
   envs                         = var.container_app_envs
   container_app_environment_id = module.container_app_environment.id
+}
+
+module "key_vault" {
+  source = "../../modules/key_vault"
+
+  name                = "${var.name}${module.random.random_string}"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  tags                = var.tags
+}
+
+module "storage_account" {
+  source = "../../modules/storage_account"
+
+  name                = "sa${var.name}${module.random.random_string}"
+  location            = var.location
+  tags                = var.tags
+  resource_group_name = module.resource_group.name
+}
+
+resource "azurerm_ai_foundry" "ai_foundry" {
+  name                = "${var.name}aifoundry${module.random.random_string}"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  storage_account_id  = module.storage_account.id
+  key_vault_id        = module.key_vault.id
+  tags                = var.tags
+
+  identity {
+    type = "SystemAssigned"
+  }
+}
+
+resource "azurerm_ai_foundry_project" "ai_foundry_project" {
+  name               = "${var.name}aifoundryproject${module.random.random_string}"
+  location           = azurerm_ai_foundry.ai_foundry.location
+  tags               = var.tags
+  ai_services_hub_id = azurerm_ai_foundry.ai_foundry.id
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
