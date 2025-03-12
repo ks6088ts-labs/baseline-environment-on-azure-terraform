@@ -117,6 +117,15 @@ module "container_registry" {
   resource_group_name = module.resource_group.name
 }
 
+module "api_management" {
+  source = "../../modules/api_management"
+
+  name                = "${var.name}apim${module.random.random_string}"
+  location            = var.location
+  tags                = var.tags
+  resource_group_name = module.resource_group.name
+}
+
 resource "azurerm_ai_foundry" "ai_foundry" {
   name                = "${var.name}aifoundry${module.random.random_string}"
   location            = var.location
