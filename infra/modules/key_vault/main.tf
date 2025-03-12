@@ -14,6 +14,7 @@ resource "azurerm_key_vault" "key_vault" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
   tenant_id           = data.azurerm_client_config.current.tenant_id
 
   sku_name                 = var.sku_name
