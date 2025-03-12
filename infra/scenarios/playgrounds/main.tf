@@ -89,3 +89,12 @@ module "container_app" {
   envs                         = var.container_app_envs
   container_app_environment_id = module.container_app_environment.id
 }
+
+module "key_vault" {
+  source = "../../modules/key_vault"
+
+  name                = "${var.name}${module.random.random_string}"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  tags                = var.tags
+}
