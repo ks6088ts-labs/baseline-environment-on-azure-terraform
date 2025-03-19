@@ -12,12 +12,12 @@ Baseline Environment on Azure in Terraform is a set of reference Terraform templ
 - [GNU Make](https://www.gnu.org/software/make/)
 - [Terraform](https://github.com/Azure/azure-cli#installation) 1.6 or later
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
-- [GitHub CLI](https://cli.github.com/)
 
 For development:
 
 - [TFlint](https://github.com/terraform-linters/tflint)
 - [Trivy](https://github.com/aquasecurity/trivy)
+- [GitHub CLI](https://cli.github.com/)
 
 ## Usage
 
