@@ -46,6 +46,17 @@ terraform init \
   -backend-config="key=createresourcegroup.terraform.tfstate"
 ```
 
+- [Store Terraform state in Azure Storage](https://learn.microsoft.com/azure/developer/terraform/store-state-in-azure-storage?tabs=terraform)
+
+## Use Azure AI Foundry
+
+### References
+
+- [Quickstart: Create a new agent (Preview)](https://learn.microsoft.com/en-us/azure/ai-services/agents/quickstart?pivots=ai-foundry-portal)
+- [Connect Azure OpenAI Service after you create a project](https://learn.microsoft.com/azure/ai-foundry/ai-services/how-to/connect-azure-openai#connect-azure-openai-service-after-you-create-a-project): Go to Management Center > Connected resources > New Connection > Azure AI services to connect to Azure AI services.
+- [Azure OpenAI Service models](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions)
+- [Grounding with Bing Search](https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/bing-grounding?tabs=python&pivots=overview)
+
 ## Overwrite variables
 
 ```shell
@@ -95,17 +106,7 @@ EOF
 k -n kube-prometheus-stack delete ingress test-ingress
 ```
 
-## References
-
-**Terraform**
-
-- [Store Terraform state in Azure Storage](https://learn.microsoft.com/azure/developer/terraform/store-state-in-azure-storage?tabs=terraform)
-
-**Azure OpenAI Service**
-
-- [Azure OpenAI Service models](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions)
-
-**AKS**
+### References
 
 - [Installing kro on AKS with Terraform](https://carlos.mendible.com/2025/02/09/installing-kro-on-aks-with-terraform/)
 - [ks6088ts-labs/workshop-kubernetes](https://github.com/ks6088ts-labs/workshop-kubernetes)
