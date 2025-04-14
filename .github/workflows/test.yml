@@ -39,7 +39,7 @@ jobs:
         with:
           tflint_version: v0.52.0
       - name: Install Trivy
-        uses: aquasecurity/setup-trivy@v0.2.2
+        uses: aquasecurity/setup-trivy@v0.2.3
         with:
           version: v0.57.0
       - name: Run CI test
