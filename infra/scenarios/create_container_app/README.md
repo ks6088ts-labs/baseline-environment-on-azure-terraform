@@ -6,6 +6,8 @@ Azure Portal 経由でデプロイした既存リソースを、Terraform 管理
 ## 前提条件
 
 - Azure サブスクリプションを持っていること
+- Azure CLI がインストールされていること
+- Terraform >= 1.5 がインストールされていること
 
 ## 手順
 
@@ -26,7 +28,7 @@ Azure Portal 経由でデプロイした既存リソースを、Terraform 管理
 - [クイックスタート: Azure portal を使用して最初のコンテナー アプリをデプロイする](https://learn.microsoft.com/ja-jp/azure/container-apps/quickstart-portal)
 - [Azure Container Apps でのイングレス](https://learn.microsoft.com/ja-jp/azure/container-apps/ingress-overview)
 
-**動作確認:**
+**動作確認(任意):**
 
 デプロイした MCP サーバーに対して、クライアントから疎通確認を行います。
 
@@ -42,4 +44,64 @@ curl -s $URL | jq -r .
     "message": "Not Acceptable: Client must accept text/event-stream"
   }
 }
+```
+
+### 2. Terraform を使用して Container App を作成する
+
+Terraform の import block を作成するため、まずはベースとなるコードを準備します。
+
+```shell
+RESOURCE_GROUP_NAME=YOUR_RESOURCE_GROUP_NAME
+CONTAINER_APP_ENVIRONMENT_NAME=YOUR_CONTAINER_APP_ENVIRONMENT_NAME
+CONTAINER_APP_NAME=YOUR_CONTAINER_APP_NAME
+
+cd infra/scenarios/create_container_app
+
+touch variables.tf outputs.tf
+
+cat << EOF > main.tf
+terraform {
+  required_version = ">= 1.6.0"
+  required_providers {
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 3.0.2"
+    }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.22.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+# Resource Group
+import {
+  id = "/subscriptions/<サブスクリプションID>/resourceGroups/${RESOURCE_GROUP_NAME}"
+  to = azurerm_resource_group.rg
+}
+
+# Container App Environment
+import {
+  id = "/subscriptions/<サブスクリプションID>/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.App/managedEnvironments/${CONTAINER_APP_ENVIRONMENT_NAME}"
+  to = azurerm_container_app_environment.env
+}
+
+# Container App
+import {
+    id = "/subscriptions/<サブスクリプションID>/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.App/containerApps/${CONTAINER_APP_NAME}"
+    to = azurerm_container_app.app
+}
+EOF
+```
+
+対象のリソースグループとその配下のリソースの詳細を JSON 形式でエクスポートします。
+
+```shell
+az resource list \
+ --resource-group $RESOURCE_GROUP_NAME \
+ --output json > exported_resources.json
 ```
