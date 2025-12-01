@@ -35,7 +35,7 @@ jobs:
         with:
           terraform_version: ${{ matrix.terraform-version }}
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4
+        uses: terraform-linters/setup-tflint@v6
         with:
           tflint_version: v0.52.0
       - name: Install Trivy
