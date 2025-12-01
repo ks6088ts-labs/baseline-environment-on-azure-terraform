@@ -7,7 +7,7 @@ Azure Portal 経由でデプロイした既存リソースを、Terraform 管理
 
 - Azure サブスクリプションを持っていること
 - Azure CLI がインストールされていること
-- Terraform >= 1.5 がインストールされていること
+- Terraform >= 1.5 (import block 利用のため)がインストールされていること
 
 ## 手順
 
@@ -46,9 +46,12 @@ curl -s $URL | jq -r .
 }
 ```
 
-### 2. Terraform を使用して Container App を作成する
+### 2. Terraform import block を使用して既存リソースを取り込む
 
-Terraform の import block を作成するため、まずはベースとなるコードを準備します。
+以下の記事を参考に、Terraform の import block を活用して既存リソースを Terraform 定義ファイルに取り込みます。
+
+- [Import resources overview](https://developer.hashicorp.com/terraform/language/import)
+- [import ブロックを使用して既存 Azure リソースを Terraform 定義ファイルに取り込む](https://blog.jbs.co.jp/entry/2024/03/11/160601)
 
 ```shell
 RESOURCE_GROUP_NAME=YOUR_RESOURCE_GROUP_NAME
@@ -104,4 +107,64 @@ EOF
 az resource list \
  --resource-group $RESOURCE_GROUP_NAME \
  --output json > exported_resources.json
+```
+
+リソース群の情報に合わせて、`main.tf` の import block の ID やパラメータ部分を生成 AI を使って書き換えます。
+import block の id フィールドが、デプロイ済みリソースの正しい ID で書き換えられていることを確認してください。
+
+```prompt
+#file:exported_resources.json のリソース群の情報に合わせて、 #file:main.tf の import block の ID やパラメータ部分を書き換えてください。
+```
+
+import block の内容が正しいことを確認したら、Terraform の初期化と import block に基づいてリソース定義のコードを生成します。ここでは `imported.tf` というファイル名で出力します。
+
+```shell
+terraform init
+
+export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+
+terraform plan -generate-config-out="imported.tf"
+```
+
+`imported.tf` の内容を `terraform plan` を実行して確認します。
+import されたコードは、現在のリソース情報に合わせてハードコードされた形式で出力されるため、他のシナリオでも再利用する場合はリファクタリングが必要です。
+
+不要なパラメータや、デフォルト値と同じ値が設定されている箇所があれば削除したり、変数化できる部分は変数化、モジュール化して共通化を図ります。`terraform plan` を再度実行し、エラーが発生しないことを確認します。
+
+ここではプロンプトで必要最小限のことをスコープとして指定し、生成 AI による `imported.tf` のリファクタリング案を提示してもらいます。
+
+```prompt
+#file:imported.tf を以下の観点に従ってリファクタしてください。
+
+- 明示的に指定する必要のない Optional な変数指定は削除
+- 必須パラメータでハードコードされた変数は #file:variables.tf に定義して変数化し、尤もらしいデフォルト値を設定
+- #file:outputs.tf に出力変数として外部からアクセスできると利便性のあるもののみを限定して定義
+```
+
+他にも [Terraform MCP Server](https://github.com/hashicorp/terraform-mcp-server) を利用したり、`terraform plan` などの validation コマンドに成功するまでを繰り返し AI にリファクタリングを依頼することも考えられます。
+実装が完了したら、`main.tf` と `imported.tf` をマージし、`imported.tf` を削除します。
+
+## How to use
+
+```shell
+# Move to the scenario directory
+cd infra/scenarios/create_container_app
+
+# Log in to Azure
+az login
+
+# (Optional) Confirm the details for the currently logged-in user
+az ad signed-in-user show
+
+# Set environment variables
+export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+
+# Initialize the Terraform configuration.
+terraform init
+
+# Deploy the infrastructure
+terraform apply -auto-approve
+
+# Destroy the infrastructure
+terraform destroy -auto-approve
 ```
